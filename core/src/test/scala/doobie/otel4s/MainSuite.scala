@@ -16,8 +16,8 @@
 
 package doobie.otel4s
 
-import munit.CatsEffectSuite
 import cats.effect.IO
+import munit.CatsEffectSuite
 
 class MainSuite extends CatsEffectSuite {
 

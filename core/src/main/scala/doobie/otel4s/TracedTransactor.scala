@@ -16,11 +16,15 @@ import java.sql.PreparedStatement
 import java.sql.ResultSet
 
 object TracedTransactor {
+
   /** Configuration for the tracing.
-    * 
-    * @param makeSpanName Makes the span name from the query.
-    * @param spanKind The kind of the span.
-    * @param configureSpan Configures the span builder.
+    *
+    * @param makeSpanName
+    *   Makes the span name from the query.
+    * @param spanKind
+    *   The kind of the span.
+    * @param configureSpan
+    *   Configures the span builder.
     */
   case class Config[F[_]](
       makeSpanName: String => String,
@@ -28,7 +32,10 @@ object TracedTransactor {
       configureSpan: SpanBuilder[F] => SpanBuilder[F]
   )
   object Config {
-    /** Default configuration with [[SpanKind.Server]] and spans prefixed with `SQL: `. */
+
+    /** Default configuration with [[SpanKind.Server]] and spans prefixed with
+      * `SQL: `.
+      */
     def default[F[_]]: Config[F] = Config(
       makeSpanName = sql => s"SQL: $sql",
       // Usually databases are accessed from a server.

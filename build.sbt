@@ -22,7 +22,6 @@ ThisBuild / tlSitePublishBranch := Some("master")
 
 // Disable the checks, I don't want to deal with them right now.
 ThisBuild / tlCiHeaderCheck := false
-ThisBuild / tlCiScalafmtCheck := false
 
 val Scala213 = "2.13.16"
 ThisBuild / crossScalaVersions := Seq(Scala213, "3.3.4")
