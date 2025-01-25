@@ -33,7 +33,7 @@ object TracedTransactor {
   )
   object Config {
 
-    /** Default configuration with [[SpanKind.Server]] and spans prefixed with
+    /** Default configuration with `SpanKind.Server` and spans prefixed with
       * `SQL: `.
       */
     def default[F[_]]: Config[F] = Config(
