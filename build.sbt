@@ -10,7 +10,6 @@ ThisBuild / developers := List(
   tlGitHubDev("arturaz", "Artūras Šlajus")
 )
 ThisBuild / scalacOptions ++= Seq(
-  "-language:implicitConversions",
   "-Werror"
 )
 
