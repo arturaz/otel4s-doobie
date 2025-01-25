@@ -1,0 +1,55 @@
+## otel4s-doobie
+
+### Installation
+
+This library is currently available for Scala binary versions 2.13 and 3.3+.
+
+To use the latest version, include the following in your `build.sbt`:
+
+```scala
+libraryDependencies += "io.github.arturaz" %% "otel4s-doobie" % "@VERSION@"
+```
+
+Or `build.sc` if you are using [mill](https://mill-build.com):
+
+```scala
+override def ivyDeps = Agg(
+  ivy"io.github.arturaz::otel4s-doobie:@VERSION@"
+)
+```
+
+The code from `main` branch can be obtained with:
+```scala
+resolvers ++= Resolver.sonatypeOssRepos("snapshots")
+libraryDependencies += "io.github.arturaz" %% "otel4s-doobie" % "@SNAPSHOT_VERSION@"
+```
+
+For [mill](https://mill-build.com):
+```scala
+  override def repositoriesTask = T.task {
+    super.repositoriesTask() ++ Seq(
+      coursier.Repositories.sonatype("snapshots")
+    )
+  }
+
+override def ivyDeps = Agg(
+  ivy"io.github.arturaz::otel4s-doobie:@SNAPSHOT_VERSION@"
+)
+```
+
+You can see all the published artifacts on 
+[MVN Repository](https://mvnrepository.com/artifact/io.github.arturaz/otel4s-doobie).
+
+### Usage
+
+```scala mdoc
+import doobie._
+import doobie.otel4s._
+import cats.effect.Async
+import org.typelevel.otel4s.trace.Tracer
+
+def makeTraced[F[_] : Async : Tracer](transactor: Transactor[F]): Transactor[F] = {
+  /** Also see `TracedTransactor.Config` for various configuration options. */
+  TracedTransactor[F](transactor, LogHandler.noop)
+}
+```
