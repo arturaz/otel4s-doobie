@@ -26,7 +26,7 @@ lazy val core = project
   .in(file("core"))
   .settings(
     name := "otel4s-doobie",
-    description := "Doobie tracing for otel4s",
+    description := "Otel4s tracing integration with Doobie",
     libraryDependencies ++= Seq(
       // https://mvnrepository.com/artifact/org.typelevel/cats-core
       "org.typelevel" %%% "cats-core" % "2.13.0",
