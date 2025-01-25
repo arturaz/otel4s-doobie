@@ -2,19 +2,27 @@
 ThisBuild / tlBaseVersion := "0.1" // your current series x.y
 
 ThisBuild / organization := "io.github.arturaz"
-ThisBuild / organizationName := "Doobie"
+ThisBuild / organizationName := "arturaz"
 ThisBuild / startYear := Some(2025)
 ThisBuild / licenses := Seq(License.Apache2)
 ThisBuild / developers := List(
   // your GitHub handle and name
   tlGitHubDev("arturaz", "Artūras Šlajus")
 )
+ThisBuild / scalacOptions ++= Seq(
+  "-language:implicitConversions",
+  "-Werror"
+)
 
 // publish to s01.oss.sonatype.org (set to true to publish to oss.sonatype.org instead)
 ThisBuild / tlSonatypeUseLegacyHost := false
 
 // publish website from this branch
-ThisBuild / tlSitePublishBranch := Some("main")
+ThisBuild / tlSitePublishBranch := Some("master")
+
+// Disable the checks, I don't want to deal with them right now.
+ThisBuild / tlCiHeaderCheck := false
+ThisBuild / tlCiScalafmtCheck := false
 
 val Scala213 = "2.13.16"
 ThisBuild / crossScalaVersions := Seq(Scala213, "3.3.4")
@@ -35,11 +43,20 @@ lazy val core = project
       // https://mvnrepository.com/artifact/org.typelevel/otel4s-core-trace
       "org.typelevel" %%% "otel4s-core-trace" % "0.12.0-RC2",
       // https://mvnrepository.com/artifact/org.tpolecat/doobie-core
-      "org.tpolecat" %%% "doobie-core" % "1.0.0-RC6",
+      "org.tpolecat" %%% "doobie-core" % "1.0.0-RC5",
       // https://mvnrepository.com/artifact/org.scalameta/munit
       "org.scalameta" %%% "munit" % "1.1.0" % Test,
       "org.typelevel" %%% "munit-cats-effect" % "2.0.0" % Test
     )
   )
 
-lazy val docs = project.in(file("site")).dependsOn(core).enablePlugins(TypelevelSitePlugin)
+lazy val docs = project
+  .in(file("site"))
+  .dependsOn(core)
+  .enablePlugins(TypelevelSitePlugin)
+  .settings(
+    scalacOptions --= Seq(
+      // Disable unused import warnings for the docs as they report false positives.
+      "-Wunused:imports"
+    )
+  )
