@@ -53,3 +53,8 @@ def makeTraced[F[_] : Async : Tracer](transactor: Transactor[F]): Transactor[F] 
   TracedTransactor[F](transactor, LogHandler.noop)
 }
 ```
+
+## Credits
+
+This library was created by [Artūras Šlajus](https://arturaz.net). You can find me as `arturaz` on the
+[Typelevel Discord Server](https://discord.gg/XF3CXcMzqD) in the `#doobie` channel.
