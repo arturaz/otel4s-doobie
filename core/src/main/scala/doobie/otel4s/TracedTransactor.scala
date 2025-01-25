@@ -28,8 +28,9 @@ object TracedTransactor {
       configureSpan: SpanBuilder[F] => SpanBuilder[F]
   )
   object Config {
+    /** Default configuration with [[SpanKind.Server]] and spans prefixed with `SQL: `. */
     def default[F[_]]: Config[F] = Config(
-      identity,
+      makeSpanName = sql => s"SQL: $sql",
       // Usually databases are accessed from a server.
       SpanKind.Server,
       identity
