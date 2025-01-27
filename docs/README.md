@@ -10,7 +10,7 @@ To use the latest version, include the following in your `build.sbt`:
 libraryDependencies += "io.github.arturaz" %% "otel4s-doobie" % "@VERSION@"
 ```
 
-Or `build.sc` if you are using [mill](https://mill-build.com):
+Or `build.mill` if you are using [mill](https://mill-build.com):
 
 ```scala
 override def ivyDeps = Agg(
