@@ -1,5 +1,5 @@
 // https://typelevel.org/sbt-typelevel/faq.html#what-is-a-base-version-anyway
-ThisBuild / tlBaseVersion := "0.1" // your current series x.y
+ThisBuild / tlBaseVersion := "0.2" // your current series x.y
 
 ThisBuild / organization := "io.github.arturaz"
 ThisBuild / organizationName := "arturaz"
@@ -43,10 +43,14 @@ lazy val core = project
       // https://mvnrepository.com/artifact/org.typelevel/otel4s-core-trace
       "org.typelevel" %%% "otel4s-core-trace" % "0.12.0-RC2",
       // https://mvnrepository.com/artifact/org.tpolecat/doobie-core
-      "org.tpolecat" %%% "doobie-core" % "1.0.0-RC5",
+      "org.tpolecat" %%% "doobie-core" % "1.0.0-RC8",
       // https://mvnrepository.com/artifact/org.scalameta/munit
       "org.scalameta" %%% "munit" % "1.1.0" % Test,
       "org.typelevel" %%% "munit-cats-effect" % "2.0.0" % Test
+    ),
+    addCommandAlias(
+      "prepareCi",
+      "scalafmtAll;scalafmtSbt;scalafixAll;test;docs/tlSite;mimaReportBinaryIssues"
     )
   )
 

@@ -58,3 +58,13 @@ def makeTraced[F[_] : Async : Tracer](transactor: Transactor[F]): Transactor[F] 
 
 This library was created by [Artūras Šlajus](https://arturaz.net). You can find me as `arturaz` on the
 [Typelevel Discord Server](https://discord.gg/XF3CXcMzqD) in the `#doobie` channel.
+
+## Changelog
+
+### v0.2.0
+
+- Upgraded Doobie from `1.0.0-RC5` to `1.0.0-RC8`.
+
+### v0.1.0
+
+- Initial release.
