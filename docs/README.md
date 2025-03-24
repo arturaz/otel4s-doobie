@@ -70,6 +70,10 @@ This library was created by [Artūras Šlajus](https://arturaz.net). You can fin
 
 ## Changelog
 
+### v0.3.0
+
+- Upgraded Otel4s from `0.12.0-RC2` to `0.12.0-RC3`.
+
 ### v0.2.0
 
 - Upgraded Doobie from `1.0.0-RC5` to `1.0.0-RC8`.
