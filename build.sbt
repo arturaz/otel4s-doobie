@@ -41,7 +41,7 @@ lazy val core = project
       // https://mvnrepository.com/artifact/org.typelevel/cats-effect
       "org.typelevel" %%% "cats-effect" % "3.5.7",
       // https://mvnrepository.com/artifact/org.typelevel/otel4s-core-trace
-      "org.typelevel" %%% "otel4s-core-trace" % "0.12.0-RC2",
+      "org.typelevel" %%% "otel4s-core-trace" % "0.12.0-RC3",
       // https://mvnrepository.com/artifact/org.tpolecat/doobie-core
       "org.tpolecat" %%% "doobie-core" % "1.0.0-RC8",
       // https://mvnrepository.com/artifact/org.scalameta/munit
