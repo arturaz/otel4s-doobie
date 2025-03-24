@@ -48,6 +48,7 @@ Due to the usage of RC versions, binary compatibility is finicky. Consult this t
 | --------------- | -------------- | -------------- |
 | 0.3.0           | 1.0.0-RC8      | 0.12.0-RC3     |
 | 0.2.0           | 1.0.0-RC8      | 0.12.0-RC2     |
+| 0.1.0           | 1.0.0-RC5      | 0.12.0-RC2     |
 
 ### Usage
 
