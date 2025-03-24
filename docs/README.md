@@ -40,6 +40,15 @@ override def ivyDeps = Agg(
 You can see all the published artifacts on 
 [MVN Repository](https://mvnrepository.com/artifact/io.github.arturaz/otel4s-doobie).
 
+#### Versions table
+
+Due to the usage of RC versions, binary compatibility is finicky. Consult this table to know which versions are compatible.
+
+| Library Version | Doobie Version | Otel4s Version |
+| --------------- | -------------- | -------------- |
+| 0.3.0           | 1.0.0-RC8      | 0.12.0-RC3     |
+| 0.2.0           | 1.0.0-RC8      | 0.12.0-RC2     |
+
 ### Usage
 
 ```scala mdoc
