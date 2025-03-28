@@ -18,7 +18,7 @@
           imports = [ typelevel-nix.typelevelShell ];
           name = "otel4s-doobie-shell";
           typelevelShell = {
-            jdk.package = pkgs.jdk8;
+            jdk.package = pkgs.jdk11;
             nodejs.enable = true;
           };
         };
