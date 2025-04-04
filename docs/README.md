@@ -44,11 +44,12 @@ You can see all the published artifacts on
 
 Due to the usage of RC versions, binary compatibility is finicky. Consult this table to know which versions are compatible.
 
-| Library Version | Doobie Version | Otel4s Version |
-| --------------- | -------------- | -------------- |
-| 0.3.0           | 1.0.0-RC8      | 0.12.0-RC3     |
-| 0.2.0           | 1.0.0-RC8      | 0.12.0-RC2     |
-| 0.1.0           | 1.0.0-RC5      | 0.12.0-RC2     |
+| Library Version | Doobie Version | Otel4s Version | Cats Effect Version |
+|-----------------| -------------- |----------------|---------------------|
+| 0.4.0           | 1.0.0-RC8      | 0.12.0         | 3.6.0               |
+| 0.3.0           | 1.0.0-RC8      | 0.12.0-RC3     | 3.5.7               | 
+| 0.2.0           | 1.0.0-RC8      | 0.12.0-RC2     | 3.5.7               |
+| 0.1.0           | 1.0.0-RC5      | 0.12.0-RC2     | 3.5.7               |
 
 ### Usage
 
@@ -70,6 +71,11 @@ This library was created by [Artūras Šlajus](https://arturaz.net). You can fin
 [Typelevel Discord Server](https://discord.gg/XF3CXcMzqD) in the `#doobie` channel.
 
 ## Changelog
+
+### v0.4.0
+
+- Upgraded Otel4s from `0.12.0-RC3` to `0.12.0`, which also bumps the cats-effect version from `3.5.7` 
+  to `3.6.0`.
 
 ### v0.3.0
 
