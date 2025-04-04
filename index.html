@@ -107,7 +107,7 @@
 )</span></code></pre>
         <p>The code from <code>main</code> branch can be obtained with:</p>
         <pre class="keep-together pdf epub"><code class="nohighlight"><span class="identifier">resolvers</span><span> ++= </span><span class="type-name">Resolver</span><span>.</span><span class="identifier">sonatypeOssRepos</span><span>(</span><span class="string-literal">&quot;snapshots&quot;</span><span>)
-</span><span class="identifier">libraryDependencies</span><span> += </span><span class="string-literal">&quot;io.github.arturaz&quot;</span><span> %% </span><span class="string-literal">&quot;otel4s-doobie&quot;</span><span> % </span><span class="string-literal">&quot;0.3.0-3-21256d9-SNAPSHOT&quot;</span></code></pre>
+</span><span class="identifier">libraryDependencies</span><span> += </span><span class="string-literal">&quot;io.github.arturaz&quot;</span><span> %% </span><span class="string-literal">&quot;otel4s-doobie&quot;</span><span> % </span><span class="string-literal">&quot;0.3.0-6-f8816d7-SNAPSHOT&quot;</span></code></pre>
         <p>For <a href="https://mill-build.com">mill</a>:</p>
         <pre class="keep-together pdf epub"><code class="nohighlight"><span>  </span><span class="keyword">override</span><span> </span><span class="keyword">def</span><span> </span><span class="declaration-name">repositoriesTask</span><span> = </span><span class="type-name">T</span><span>.</span><span class="identifier">task</span><span> {
     </span><span class="keyword">super</span><span>.</span><span class="identifier">repositoriesTask</span><span>() ++ </span><span class="type-name">Seq</span><span>(
@@ -116,7 +116,7 @@
   }
 
 </span><span class="keyword">override</span><span> </span><span class="keyword">def</span><span> </span><span class="declaration-name">ivyDeps</span><span> = </span><span class="type-name">Agg</span><span>(
-  </span><span class="string-literal">ivy&quot;io.github.arturaz::otel4s-doobie:0.3.0-3-21256d9-SNAPSHOT&quot;</span><span>
+  </span><span class="string-literal">ivy&quot;io.github.arturaz::otel4s-doobie:0.3.0-6-f8816d7-SNAPSHOT&quot;</span><span>
 )</span></code></pre>
         <p>You can see all the published artifacts on 
         <a href="https://mvnrepository.com/artifact/io.github.arturaz/otel4s-doobie">MVN Repository</a>.</p>
