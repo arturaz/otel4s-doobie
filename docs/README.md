@@ -109,7 +109,14 @@ object App extends IOApp.Simple {
 }
 ```
 
-![example.png](example.png)
+This is how it looks after instrumentation:
+
+@:image(example.png) {
+  intrinsicWidth = 1024
+  intrinsicHeight = 368
+  alt = Example
+}
+[(open image in full size)](example.png)
 
 ## Credits
 
