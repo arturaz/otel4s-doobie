@@ -8,6 +8,7 @@ To use the latest version, include the following in your `build.sbt`:
 
 ```scala
 libraryDependencies += "io.github.arturaz" %% "otel4s-doobie" % "@VERSION@"
+javaOptions += "-Dcats.effect.trackFiberContext=true"
 ```
 
 Or `build.mill` if you are using [mill](https://mill-build.com):
@@ -16,6 +17,11 @@ Or `build.mill` if you are using [mill](https://mill-build.com):
 override def ivyDeps = Agg(
   ivy"io.github.arturaz::otel4s-doobie:@VERSION@"
 )
+```
+
+and `.mill-jvm-opts`:
+```scala
+-Dcats.effect.trackFiberContext=true
 ```
 
 The code from `main` branch can be obtained with:
@@ -54,16 +60,55 @@ Due to the usage of RC versions, binary compatibility is finicky. Consult this t
 ### Usage
 
 ```scala mdoc
-import doobie._
-import doobie.otel4s._
-import cats.effect.Async
-import org.typelevel.otel4s.trace.Tracer
+import cats.effect.IO
+import cats.effect.IOApp
+import cats.effect.MonadCancelThrow
+import doobie.Transactor
+import doobie.implicits.toSqlInterpolator
+import doobie.otel4s.tracing.TraceTransactor
+import doobie.syntax.connectionio.toConnectionIOOps
+import doobie.util.ExecutionContexts
+import org.h2.jdbcx.JdbcDataSource
+import org.typelevel.otel4s.context.LocalProvider
+import org.typelevel.otel4s.oteljava.OtelJava
+import org.typelevel.otel4s.oteljava.context.Context
+import org.typelevel.otel4s.oteljava.context.IOLocalContextStorage
 
-def makeTraced[F[_] : Async : Tracer](transactor: Transactor[F]): Transactor[F] = {
-  /** Also see `TracedTransactor.Config` for various configuration options. */
-  TracedTransactor[F](transactor, LogHandler.noop)
+import javax.sql.DataSource
+
+object App extends IOApp.Simple {
+
+  def program[F[_]: MonadCancelThrow](xa: Transactor[F]): F[Int] = {
+    sql"""SELECT 1""".query[Int].unique.transact(xa)
+  }
+
+  override def run: IO[Unit] = {
+    // don't forget to add
+    // javaOptions += "-Dcats.effect.trackFiberContext=true"
+    implicit val provider: LocalProvider[IO, Context] =
+      IOLocalContextStorage.localProvider[IO]
+
+    OtelJava.autoConfigured[IO]().use { otel4s =>
+      // initialize your transactor the way you want
+      val xa: Transactor.Aux[IO, DataSource] = Transactor.fromDataSource[IO](
+        {
+          val ds = new JdbcDataSource()
+          ds.setURL("jdbc:h2:mem:test_database")
+          ds
+        },
+        ExecutionContexts.synchronous
+      )
+      // wrap it with a TraceTransactor
+      val traceTransactor =
+        TraceTransactor.fromDataSource(otel4s.underlying, xa)
+
+      program[IO](traceTransactor).void
+    }
+  }
 }
 ```
+
+![example.png](example.png)
 
 ## Credits
 

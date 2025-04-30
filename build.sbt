@@ -40,18 +40,29 @@ lazy val core = project
       "org.typelevel" %%% "cats-core" % "2.13.0",
       // https://mvnrepository.com/artifact/org.typelevel/cats-effect
       "org.typelevel" %%% "cats-effect" % "3.6.0",
-      // https://mvnrepository.com/artifact/org.typelevel/otel4s-core-trace
-      "org.typelevel" %%% "otel4s-core-trace" % "0.12.0",
+      // https://mvnrepository.com/artifact/org.typelevel/otel4s-java
+      "org.typelevel" %%% "otel4s-oteljava" % "0.12.0",
       // https://mvnrepository.com/artifact/org.tpolecat/doobie-core
       "org.tpolecat" %%% "doobie-core" % "1.0.0-RC8",
+      // https://mvnrepository.com/artifact/io.opentelemetry.instrumentation/opentelemetry-jdbc
+      "io.opentelemetry.instrumentation" % "opentelemetry-jdbc" % "2.15.0-alpha",
+      // https://mvnrepository.com/artifact/org.typelevel/otel4s-oteljava-context-storage
+      "org.typelevel" %% "otel4s-oteljava-context-storage" % "0.12.0",
       // https://mvnrepository.com/artifact/org.scalameta/munit
       "org.scalameta" %%% "munit" % "1.1.0" % Test,
-      "org.typelevel" %%% "munit-cats-effect" % "2.0.0" % Test
+      "org.typelevel" %%% "munit-cats-effect" % "2.0.0" % Test,
+      // https://mvnrepository.com/artifact/com.h2database/h2
+      "com.h2database" % "h2" % "2.3.232",
+      // https://mvnrepository.com/artifact/org.typelevel/otel4s-oteljava-testkit
+      "org.typelevel" %% "otel4s-oteljava-testkit" % "0.12.0" % Test,
+      "io.opentelemetry" % "opentelemetry-exporter-otlp" % "1.49.0"
     ),
     addCommandAlias(
       "prepareCi",
       "scalafmtAll;scalafmtSbt;scalafixAll;+ test;docs/tlSite;mimaReportBinaryIssues"
-    )
+    ),
+    Test / fork := true,
+    Test / javaOptions += "-Dcats.effect.trackFiberContext=true"
   )
 
 lazy val docs = project
