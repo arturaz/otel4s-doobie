@@ -3,6 +3,7 @@ package doobie.otel4s.testkit
 import cats.effect.IO
 import cats.effect.kernel.Async
 import cats.effect.kernel.Resource
+import cats.syntax.all.*
 import io.opentelemetry.api.OpenTelemetry
 import io.opentelemetry.api.trace.propagation.W3CTraceContextPropagator
 import io.opentelemetry.context.propagation.ContextPropagators
@@ -61,7 +62,7 @@ object InMemoryJOpenTelemetry {
             )
             .build()
         )
-      )(otel => Async[F].delay(otel.shutdown()))
+      )(otel => Async[F].delay(otel.shutdown()).void)
       .map(otel => InMemoryJOpenTelemetry(otel, logs, metrics, traces))
   }
 

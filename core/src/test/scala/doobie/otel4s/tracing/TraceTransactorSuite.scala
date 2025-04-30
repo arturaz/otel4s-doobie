@@ -46,7 +46,8 @@ class TraceTransactorSuite extends CatsEffectSuite {
           conn
         }
 
-        val xa = Transactor.fromConnection[IO](connection = conn, logHandler = None)
+        val xa =
+          Transactor.fromConnection[IO](connection = conn, logHandler = None)
 
         val wrap = TraceTransactor.fromConnection(otel.otel, xa)
         assertEquals(
@@ -64,8 +65,8 @@ class TraceTransactorSuite extends CatsEffectSuite {
       IOLocalContextStorage.localProvider[IO]
 
     (for {
-      jotel  <- InMemoryJOpenTelemetry.forF[IO]
-      otel   <- OtelJava.fromJOpenTelemetry[IO](jotel.otel).toResource
+      jotel <- InMemoryJOpenTelemetry.forF[IO]
+      otel <- OtelJava.fromJOpenTelemetry[IO](jotel.otel).toResource
       tracer <- otel.tracerProvider.get("io.swan.app").toResource
     } yield (jotel, tracer)).use { case (otel, tracer) =>
       val ds: DataSource = {
@@ -94,7 +95,10 @@ class TraceTransactorSuite extends CatsEffectSuite {
         .map { root =>
           val spans = otel.traces.getFinishedSpanItems.asScala.toVector
           assertEquals(spans.size, 3)
-          assertEquals(spans.map(_.getTraceId).distinct, Vector(root.context.traceIdHex))
+          assertEquals(
+            spans.map(_.getTraceId).distinct,
+            Vector(root.context.traceIdHex)
+          )
           assert(spans.exists(_.getName == "ROOT_SPAN"))
           assert(spans.exists(_.getName == "JdbcDataSource.getConnection"))
           assert(spans.exists(_.getName == "SELECT INFORMATION_SCHEMA.TABLES"))
