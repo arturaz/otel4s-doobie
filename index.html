@@ -101,14 +101,17 @@
         <h3 id="installation" class="section"><a class="anchor-link left" href="#installation"><i class="icofont-laika link">&#xef71;</i></a>Installation</h3>
         <p>This library is currently available for Scala binary versions 2.13 and 3.3+.</p>
         <p>To use the latest version, include the following in your <code>build.sbt</code>:</p>
-        <pre class="keep-together pdf epub"><code class="nohighlight"><span class="identifier">libraryDependencies</span><span> += </span><span class="string-literal">&quot;io.github.arturaz&quot;</span><span> %% </span><span class="string-literal">&quot;otel4s-doobie&quot;</span><span> % </span><span class="string-literal">&quot;0.3.0&quot;</span></code></pre>
+        <pre class="keep-together pdf epub"><code class="nohighlight"><span class="identifier">libraryDependencies</span><span> += </span><span class="string-literal">&quot;io.github.arturaz&quot;</span><span> %% </span><span class="string-literal">&quot;otel4s-doobie&quot;</span><span> % </span><span class="string-literal">&quot;0.4.0&quot;</span><span>
+</span><span class="identifier">javaOptions</span><span> += </span><span class="string-literal">&quot;-Dcats.effect.trackFiberContext=true&quot;</span></code></pre>
         <p>Or <code>build.mill</code> if you are using <a href="https://mill-build.com">mill</a>:</p>
         <pre class="keep-together pdf epub"><code class="nohighlight"><span class="keyword">override</span><span> </span><span class="keyword">def</span><span> </span><span class="declaration-name">ivyDeps</span><span> = </span><span class="type-name">Agg</span><span>(
-  </span><span class="string-literal">ivy&quot;io.github.arturaz::otel4s-doobie:0.3.0&quot;</span><span>
+  </span><span class="string-literal">ivy&quot;io.github.arturaz::otel4s-doobie:0.4.0&quot;</span><span>
 )</span></code></pre>
+        <p>and <code>.mill-jvm-opts</code>:</p>
+        <pre class="keep-together pdf epub"><code class="nohighlight"><span>-</span><span class="type-name">Dcats</span><span>.</span><span class="identifier">effect</span><span>.</span><span class="identifier">trackFiberContext</span><span>=</span><span class="boolean-literal">true</span></code></pre>
         <p>The code from <code>main</code> branch can be obtained with:</p>
         <pre class="keep-together pdf epub"><code class="nohighlight"><span class="identifier">resolvers</span><span> ++= </span><span class="type-name">Resolver</span><span>.</span><span class="identifier">sonatypeOssRepos</span><span>(</span><span class="string-literal">&quot;snapshots&quot;</span><span>)
-</span><span class="identifier">libraryDependencies</span><span> += </span><span class="string-literal">&quot;io.github.arturaz&quot;</span><span> %% </span><span class="string-literal">&quot;otel4s-doobie&quot;</span><span> % </span><span class="string-literal">&quot;0.3.0-7-91819df-SNAPSHOT&quot;</span></code></pre>
+</span><span class="identifier">libraryDependencies</span><span> += </span><span class="string-literal">&quot;io.github.arturaz&quot;</span><span> %% </span><span class="string-literal">&quot;otel4s-doobie&quot;</span><span> % </span><span class="string-literal">&quot;0.5-2eb6e83-SNAPSHOT&quot;</span></code></pre>
         <p>For <a href="https://mill-build.com">mill</a>:</p>
         <pre class="keep-together pdf epub"><code class="nohighlight"><span>  </span><span class="keyword">override</span><span> </span><span class="keyword">def</span><span> </span><span class="declaration-name">repositoriesTask</span><span> = </span><span class="type-name">T</span><span>.</span><span class="identifier">task</span><span> {
     </span><span class="keyword">super</span><span>.</span><span class="identifier">repositoriesTask</span><span>() ++ </span><span class="type-name">Seq</span><span>(
@@ -117,7 +120,7 @@
   }
 
 </span><span class="keyword">override</span><span> </span><span class="keyword">def</span><span> </span><span class="declaration-name">ivyDeps</span><span> = </span><span class="type-name">Agg</span><span>(
-  </span><span class="string-literal">ivy&quot;io.github.arturaz::otel4s-doobie:0.3.0-7-91819df-SNAPSHOT&quot;</span><span>
+  </span><span class="string-literal">ivy&quot;io.github.arturaz::otel4s-doobie:0.5-2eb6e83-SNAPSHOT&quot;</span><span>
 )</span></code></pre>
         <p>You can see all the published artifacts on 
         <a href="https://mvnrepository.com/artifact/io.github.arturaz/otel4s-doobie">MVN Repository</a>.</p>
@@ -162,15 +165,53 @@
         </table>
         
         <h3 id="usage" class="section"><a class="anchor-link left" href="#usage"><i class="icofont-laika link">&#xef71;</i></a>Usage</h3>
-        <pre class="keep-together pdf epub"><code class="nohighlight"><span class="keyword">import</span><span> </span><span class="identifier">doobie</span><span>.</span><span class="identifier">_</span><span>
-</span><span class="keyword">import</span><span> </span><span class="identifier">doobie</span><span>.</span><span class="identifier">otel4s</span><span>.</span><span class="identifier">_</span><span>
-</span><span class="keyword">import</span><span> </span><span class="identifier">cats</span><span>.</span><span class="identifier">effect</span><span>.</span><span class="type-name">Async</span><span>
-</span><span class="keyword">import</span><span> </span><span class="identifier">org</span><span>.</span><span class="identifier">typelevel</span><span>.</span><span class="identifier">otel4s</span><span>.</span><span class="identifier">trace</span><span>.</span><span class="type-name">Tracer</span><span>
+        <pre><code class="nohighlight"><span class="keyword">import</span><span> </span><span class="identifier">cats</span><span>.</span><span class="identifier">effect</span><span>.</span><span class="type-name">IO</span><span>
+</span><span class="keyword">import</span><span> </span><span class="identifier">cats</span><span>.</span><span class="identifier">effect</span><span>.</span><span class="type-name">IOApp</span><span>
+</span><span class="keyword">import</span><span> </span><span class="identifier">cats</span><span>.</span><span class="identifier">effect</span><span>.</span><span class="type-name">MonadCancelThrow</span><span>
+</span><span class="keyword">import</span><span> </span><span class="identifier">doobie</span><span>.</span><span class="type-name">Transactor</span><span>
+</span><span class="keyword">import</span><span> </span><span class="identifier">doobie</span><span>.</span><span class="identifier">implicits</span><span>.</span><span class="identifier">toSqlInterpolator</span><span>
+</span><span class="keyword">import</span><span> </span><span class="identifier">doobie</span><span>.</span><span class="identifier">otel4s</span><span>.</span><span class="identifier">tracing</span><span>.</span><span class="type-name">TraceTransactor</span><span>
+</span><span class="keyword">import</span><span> </span><span class="identifier">doobie</span><span>.</span><span class="identifier">syntax</span><span>.</span><span class="identifier">connectionio</span><span>.</span><span class="identifier">toConnectionIOOps</span><span>
+</span><span class="keyword">import</span><span> </span><span class="identifier">doobie</span><span>.</span><span class="identifier">util</span><span>.</span><span class="type-name">ExecutionContexts</span><span>
+</span><span class="keyword">import</span><span> </span><span class="identifier">org</span><span>.</span><span class="identifier">h2</span><span>.</span><span class="identifier">jdbcx</span><span>.</span><span class="type-name">JdbcDataSource</span><span>
+</span><span class="keyword">import</span><span> </span><span class="identifier">org</span><span>.</span><span class="identifier">typelevel</span><span>.</span><span class="identifier">otel4s</span><span>.</span><span class="identifier">context</span><span>.</span><span class="type-name">LocalProvider</span><span>
+</span><span class="keyword">import</span><span> </span><span class="identifier">org</span><span>.</span><span class="identifier">typelevel</span><span>.</span><span class="identifier">otel4s</span><span>.</span><span class="identifier">oteljava</span><span>.</span><span class="type-name">OtelJava</span><span>
+</span><span class="keyword">import</span><span> </span><span class="identifier">org</span><span>.</span><span class="identifier">typelevel</span><span>.</span><span class="identifier">otel4s</span><span>.</span><span class="identifier">oteljava</span><span>.</span><span class="identifier">context</span><span>.</span><span class="type-name">Context</span><span>
+</span><span class="keyword">import</span><span> </span><span class="identifier">org</span><span>.</span><span class="identifier">typelevel</span><span>.</span><span class="identifier">otel4s</span><span>.</span><span class="identifier">oteljava</span><span>.</span><span class="identifier">context</span><span>.</span><span class="type-name">IOLocalContextStorage</span><span>
 
-</span><span class="keyword">def</span><span> </span><span class="declaration-name">makeTraced</span><span>[</span><span class="type-name">F</span><span>[</span><span class="identifier">_</span><span>] : </span><span class="type-name">Async</span><span> : </span><span class="type-name">Tracer</span><span>](</span><span class="identifier">transactor</span><span>: </span><span class="type-name">Transactor</span><span>[</span><span class="type-name">F</span><span>]): </span><span class="type-name">Transactor</span><span>[</span><span class="type-name">F</span><span>] = {
-  </span><span class="comment">/** Also see `TracedTransactor.Config` for various configuration options. */</span><span>
-  </span><span class="type-name">TracedTransactor</span><span>[</span><span class="type-name">F</span><span>](</span><span class="identifier">transactor</span><span>, </span><span class="type-name">LogHandler</span><span>.</span><span class="identifier">noop</span><span>)
+</span><span class="keyword">import</span><span> </span><span class="identifier">javax</span><span>.</span><span class="identifier">sql</span><span>.</span><span class="type-name">DataSource</span><span>
+
+</span><span class="keyword">object</span><span> </span><span class="type-name">App</span><span> </span><span class="keyword">extends</span><span> </span><span class="type-name">IOApp</span><span>.</span><span class="type-name">Simple</span><span> {
+
+  </span><span class="keyword">def</span><span> </span><span class="declaration-name">program</span><span>[</span><span class="type-name">F</span><span>[</span><span class="identifier">_</span><span>]: </span><span class="type-name">MonadCancelThrow</span><span>](</span><span class="identifier">xa</span><span>: </span><span class="type-name">Transactor</span><span>[</span><span class="type-name">F</span><span>]): </span><span class="type-name">F</span><span>[</span><span class="type-name">Int</span><span>] = {
+    </span><span class="string-literal">sql&quot;&quot;&quot;SELECT 1&quot;&quot;&quot;</span><span>.</span><span class="identifier">query</span><span>[</span><span class="type-name">Int</span><span>].</span><span class="identifier">unique</span><span>.</span><span class="identifier">transact</span><span>(</span><span class="identifier">xa</span><span>)
+  }
+
+  </span><span class="keyword">override</span><span> </span><span class="keyword">def</span><span> </span><span class="declaration-name">run</span><span>: </span><span class="type-name">IO</span><span>[</span><span class="type-name">Unit</span><span>] = {
+    </span><span class="comment">// don&#39;t forget to add
+</span><span>    </span><span class="comment">// javaOptions += &quot;-Dcats.effect.trackFiberContext=true&quot;
+</span><span>    </span><span class="keyword">implicit</span><span> </span><span class="keyword">val</span><span> </span><span class="identifier">provider</span><span>: </span><span class="type-name">LocalProvider</span><span>[</span><span class="type-name">IO</span><span>, </span><span class="type-name">Context</span><span>] =
+      </span><span class="type-name">IOLocalContextStorage</span><span>.</span><span class="identifier">localProvider</span><span>[</span><span class="type-name">IO</span><span>]
+
+    </span><span class="type-name">OtelJava</span><span>.</span><span class="identifier">autoConfigured</span><span>[</span><span class="type-name">IO</span><span>]().</span><span class="identifier">use</span><span> { </span><span class="identifier">otel4s</span><span> =&gt;
+      </span><span class="comment">// initialize your transactor the way you want
+</span><span>      </span><span class="keyword">val</span><span> </span><span class="identifier">xa</span><span>: </span><span class="type-name">Transactor</span><span>.</span><span class="type-name">Aux</span><span>[</span><span class="type-name">IO</span><span>, </span><span class="type-name">DataSource</span><span>] = </span><span class="type-name">Transactor</span><span>.</span><span class="identifier">fromDataSource</span><span>[</span><span class="type-name">IO</span><span>](
+        {
+          </span><span class="keyword">val</span><span> </span><span class="identifier">ds</span><span> = </span><span class="keyword">new</span><span> </span><span class="type-name">JdbcDataSource</span><span>()
+          </span><span class="identifier">ds</span><span>.</span><span class="identifier">setURL</span><span>(</span><span class="string-literal">&quot;jdbc:h2:mem:test_database&quot;</span><span>)
+          </span><span class="identifier">ds</span><span>
+        },
+        </span><span class="type-name">ExecutionContexts</span><span>.</span><span class="identifier">synchronous</span><span>
+      )
+      </span><span class="comment">// wrap it with a TraceTransactor
+</span><span>      </span><span class="keyword">val</span><span> </span><span class="identifier">traceTransactor</span><span> =
+        </span><span class="type-name">TraceTransactor</span><span>.</span><span class="identifier">fromDataSource</span><span>(</span><span class="identifier">otel4s</span><span>.</span><span class="identifier">underlying</span><span>, </span><span class="identifier">xa</span><span>)
+
+      </span><span class="identifier">program</span><span>[</span><span class="type-name">IO</span><span>](</span><span class="identifier">traceTransactor</span><span>).</span><span class="identifier">void</span><span>
+    }
+  }
 }</span></code></pre>
+        <p><img src="example.png" alt="example.png"></p>
         
         <h2 id="credits" class="section"><a class="anchor-link left" href="#credits"><i class="icofont-laika link">&#xef71;</i></a>Credits</h2>
         <p>This library was created by <a href="https://arturaz.net">Artūras Šlajus</a>. You can find me as <code>arturaz</code> on the
