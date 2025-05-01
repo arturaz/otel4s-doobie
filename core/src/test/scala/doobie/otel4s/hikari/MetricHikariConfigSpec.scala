@@ -7,7 +7,9 @@ import munit.FunSuite
 class MetricHikariConfigSpec extends FunSuite {
 
   test("should wrap with an open telemetry metrics tracker") {
-    val config  = MetricHikariConfig.fromConfig(OpenTelemetry.noop(), new HikariConfig())
+    val config =
+      MetricHikariConfig.fromConfig(OpenTelemetry.noop(), new HikariConfig())
+
     val metrics = config.getMetricsTrackerFactory
     assertEquals(
       metrics.getClass.getName,

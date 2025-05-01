@@ -60,7 +60,7 @@ Due to the usage of RC versions, binary compatibility is finicky. Consult this t
 
 ### Usage
 
-```scala mdoc
+```scala
 import cats.effect.IO
 import cats.effect.IOApp
 import cats.effect.MonadCancelThrow
@@ -69,7 +69,6 @@ import doobie.implicits.toSqlInterpolator
 import doobie.otel4s.tracing.TraceTransactor
 import doobie.syntax.connectionio.toConnectionIOOps
 import doobie.util.ExecutionContexts
-import org.h2.jdbcx.JdbcDataSource
 import org.typelevel.otel4s.context.LocalProvider
 import org.typelevel.otel4s.oteljava.OtelJava
 import org.typelevel.otel4s.oteljava.context.Context
@@ -92,12 +91,8 @@ object App extends IOApp.Simple {
     OtelJava.autoConfigured[IO]().use { otel4s =>
       // initialize your transactor the way you want
       val xa: Transactor.Aux[IO, DataSource] = Transactor.fromDataSource[IO](
-        {
-          val ds = new JdbcDataSource()
-          ds.setURL("jdbc:h2:mem:test_database")
-          ds
-        },
-        ExecutionContexts.synchronous
+        dataSource = ???,
+        connectEC = ExecutionContexts.synchronous
       )
       // wrap it with a TraceTransactor
       val traceTransactor =
@@ -117,6 +112,65 @@ This is how it looks after instrumentation:
   alt = Example
 }
 [(open image in full size)](example.png)
+
+### Using Hikari
+
+Make sure you have the following libraries in your classpath
+```scala
+"org.tpolecat" %%% "doobie-hikari" % "<version>",
+"io.opentelemetry.instrumentation" % "opentelemetry-hikaricp-3.0" % "<version>"
+```
+
+Initialize a Transactor using `TelemetryHikariTransactor`
+
+```scal
+import cats.effect.IO
+import cats.effect.IOApp
+import cats.effect.MonadCancelThrow
+import com.zaxxer.hikari.HikariConfig
+import doobie.Transactor
+import doobie.implicits.toSqlInterpolator
+import doobie.otel4s.hikari.TelemetryHikariTransactor
+import doobie.syntax.connectionio.toConnectionIOOps
+import org.typelevel.otel4s.context.LocalProvider
+import org.typelevel.otel4s.oteljava.OtelJava
+import org.typelevel.otel4s.oteljava.context.Context
+import org.typelevel.otel4s.oteljava.context.IOLocalContextStorage
+import org.typelevel.otel4s.trace.Tracer
+
+object App extends IOApp.Simple {
+
+  def program[F[_]: MonadCancelThrow: Tracer](xa: Transactor[F]): F[Int] = {
+    Tracer[F]
+      .span("program")
+      .surround(sql"""SELECT 1""".query[Int].unique.transact(xa))
+  }
+
+  override def run: IO[Unit] = {
+    // don't forget to add
+    // javaOptions += "-Dcats.effect.trackFiberContext=true"
+    implicit val provider: LocalProvider[IO, Context] =
+      IOLocalContextStorage.localProvider[IO]
+
+    (for {
+      otel4s <- OtelJava.autoConfigured[IO]()
+      tracer <- otel4s.tracerProvider.get("tracer").toResource
+      xa <- TelemetryHikariTransactor.fromHikariConfig[IO](
+        otel = otel4s.underlying,
+        config = {
+          val conf = new HikariConfig()
+          // set the right properties
+          conf
+        }
+      )
+    } yield (tracer, xa))
+      .use { case (tracer, xa) =>
+        implicit val _tracer: Tracer[IO] = tracer
+        program[IO](xa).void
+      }
+  }
+}
+```
 
 ## Credits
 
