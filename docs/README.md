@@ -123,7 +123,7 @@ Make sure you have the following libraries in your classpath
 
 Initialize a Transactor using `TelemetryHikariTransactor`
 
-```scal
+```scala
 import cats.effect.IO
 import cats.effect.IOApp
 import cats.effect.MonadCancelThrow
