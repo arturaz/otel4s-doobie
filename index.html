@@ -82,6 +82,7 @@
     <li class="level1 nav-node"><a href="#installation">Installation</a></li>
     <li class="level2 nav-leaf"><a href="#versions-table">Versions table</a></li>
     <li class="level1 nav-leaf"><a href="#usage">Usage</a></li>
+    <li class="level1 nav-leaf"><a href="#using-hikari">Using Hikari</a></li>
     <li class="level1 nav-leaf"><a href="#credits">Credits</a></li>
     <li class="level1 nav-node"><a href="#changelog">Changelog</a></li>
     <li class="level2 nav-leaf"><a href="#v0-5-0">v0.5.0</a></li>
@@ -112,7 +113,7 @@
         <pre class="keep-together pdf epub"><code class="nohighlight"><span>-</span><span class="type-name">Dcats</span><span>.</span><span class="identifier">effect</span><span>.</span><span class="identifier">trackFiberContext</span><span>=</span><span class="boolean-literal">true</span></code></pre>
         <p>The code from <code>main</code> branch can be obtained with:</p>
         <pre class="keep-together pdf epub"><code class="nohighlight"><span class="identifier">resolvers</span><span> ++= </span><span class="type-name">Resolver</span><span>.</span><span class="identifier">sonatypeOssRepos</span><span>(</span><span class="string-literal">&quot;snapshots&quot;</span><span>)
-</span><span class="identifier">libraryDependencies</span><span> += </span><span class="string-literal">&quot;io.github.arturaz&quot;</span><span> %% </span><span class="string-literal">&quot;otel4s-doobie&quot;</span><span> % </span><span class="string-literal">&quot;0.5-e63686b-SNAPSHOT&quot;</span></code></pre>
+</span><span class="identifier">libraryDependencies</span><span> += </span><span class="string-literal">&quot;io.github.arturaz&quot;</span><span> %% </span><span class="string-literal">&quot;otel4s-doobie&quot;</span><span> % </span><span class="string-literal">&quot;0.5-687b63c-SNAPSHOT&quot;</span></code></pre>
         <p>For <a href="https://mill-build.com">mill</a>:</p>
         <pre class="keep-together pdf epub"><code class="nohighlight"><span>  </span><span class="keyword">override</span><span> </span><span class="keyword">def</span><span> </span><span class="declaration-name">repositoriesTask</span><span> = </span><span class="type-name">T</span><span>.</span><span class="identifier">task</span><span> {
     </span><span class="keyword">super</span><span>.</span><span class="identifier">repositoriesTask</span><span>() ++ </span><span class="type-name">Seq</span><span>(
@@ -121,7 +122,7 @@
   }
 
 </span><span class="keyword">override</span><span> </span><span class="keyword">def</span><span> </span><span class="declaration-name">ivyDeps</span><span> = </span><span class="type-name">Agg</span><span>(
-  </span><span class="string-literal">ivy&quot;io.github.arturaz::otel4s-doobie:0.5-e63686b-SNAPSHOT&quot;</span><span>
+  </span><span class="string-literal">ivy&quot;io.github.arturaz::otel4s-doobie:0.5-687b63c-SNAPSHOT&quot;</span><span>
 )</span></code></pre>
         <p>You can see all the published artifacts on 
         <a href="https://mvnrepository.com/artifact/io.github.arturaz/otel4s-doobie">MVN Repository</a>.</p>
@@ -180,7 +181,6 @@
 </span><span class="keyword">import</span><span> </span><span class="identifier">doobie</span><span>.</span><span class="identifier">otel4s</span><span>.</span><span class="identifier">tracing</span><span>.</span><span class="type-name">TraceTransactor</span><span>
 </span><span class="keyword">import</span><span> </span><span class="identifier">doobie</span><span>.</span><span class="identifier">syntax</span><span>.</span><span class="identifier">connectionio</span><span>.</span><span class="identifier">toConnectionIOOps</span><span>
 </span><span class="keyword">import</span><span> </span><span class="identifier">doobie</span><span>.</span><span class="identifier">util</span><span>.</span><span class="type-name">ExecutionContexts</span><span>
-</span><span class="keyword">import</span><span> </span><span class="identifier">org</span><span>.</span><span class="identifier">h2</span><span>.</span><span class="identifier">jdbcx</span><span>.</span><span class="type-name">JdbcDataSource</span><span>
 </span><span class="keyword">import</span><span> </span><span class="identifier">org</span><span>.</span><span class="identifier">typelevel</span><span>.</span><span class="identifier">otel4s</span><span>.</span><span class="identifier">context</span><span>.</span><span class="type-name">LocalProvider</span><span>
 </span><span class="keyword">import</span><span> </span><span class="identifier">org</span><span>.</span><span class="identifier">typelevel</span><span>.</span><span class="identifier">otel4s</span><span>.</span><span class="identifier">oteljava</span><span>.</span><span class="type-name">OtelJava</span><span>
 </span><span class="keyword">import</span><span> </span><span class="identifier">org</span><span>.</span><span class="identifier">typelevel</span><span>.</span><span class="identifier">otel4s</span><span>.</span><span class="identifier">oteljava</span><span>.</span><span class="identifier">context</span><span>.</span><span class="type-name">Context</span><span>
@@ -203,12 +203,8 @@
     </span><span class="type-name">OtelJava</span><span>.</span><span class="identifier">autoConfigured</span><span>[</span><span class="type-name">IO</span><span>]().</span><span class="identifier">use</span><span> { </span><span class="identifier">otel4s</span><span> =&gt;
       </span><span class="comment">// initialize your transactor the way you want
 </span><span>      </span><span class="keyword">val</span><span> </span><span class="identifier">xa</span><span>: </span><span class="type-name">Transactor</span><span>.</span><span class="type-name">Aux</span><span>[</span><span class="type-name">IO</span><span>, </span><span class="type-name">DataSource</span><span>] = </span><span class="type-name">Transactor</span><span>.</span><span class="identifier">fromDataSource</span><span>[</span><span class="type-name">IO</span><span>](
-        {
-          </span><span class="keyword">val</span><span> </span><span class="identifier">ds</span><span> = </span><span class="keyword">new</span><span> </span><span class="type-name">JdbcDataSource</span><span>()
-          </span><span class="identifier">ds</span><span>.</span><span class="identifier">setURL</span><span>(</span><span class="string-literal">&quot;jdbc:h2:mem:test_database&quot;</span><span>)
-          </span><span class="identifier">ds</span><span>
-        },
-        </span><span class="type-name">ExecutionContexts</span><span>.</span><span class="identifier">synchronous</span><span>
+        </span><span class="identifier">dataSource</span><span> = ???,
+        </span><span class="identifier">connectEC</span><span> = </span><span class="type-name">ExecutionContexts</span><span>.</span><span class="identifier">synchronous</span><span>
       )
       </span><span class="comment">// wrap it with a TraceTransactor
 </span><span>      </span><span class="keyword">val</span><span> </span><span class="identifier">traceTransactor</span><span> =
@@ -223,6 +219,58 @@
           <img src="example.png" alt="Example" width="1024" height="368">
         </div>
         <p><a href="example.png">(open image in full size)</a></p>
+        
+        <h3 id="using-hikari" class="section"><a class="anchor-link left" href="#using-hikari"><i class="icofont-laika link">&#xef71;</i></a>Using Hikari</h3>
+        <p>Make sure you have the following libraries in your classpath</p>
+        <pre class="keep-together pdf epub"><code class="nohighlight"><span class="string-literal">&quot;org.tpolecat&quot;</span><span> %%% </span><span class="string-literal">&quot;doobie-hikari&quot;</span><span> % </span><span class="string-literal">&quot;&lt;version&gt;&quot;</span><span>,
+</span><span class="string-literal">&quot;io.opentelemetry.instrumentation&quot;</span><span> % </span><span class="string-literal">&quot;opentelemetry-hikaricp-3.0&quot;</span><span> % </span><span class="string-literal">&quot;&lt;version&gt;&quot;</span></code></pre>
+        <p>Initialize a Transactor using <code>TelemetryHikariTransactor</code></p>
+        <pre><code class="scal">import cats.effect.IO
+import cats.effect.IOApp
+import cats.effect.MonadCancelThrow
+import com.zaxxer.hikari.HikariConfig
+import doobie.Transactor
+import doobie.implicits.toSqlInterpolator
+import doobie.otel4s.hikari.TelemetryHikariTransactor
+import doobie.syntax.connectionio.toConnectionIOOps
+import org.typelevel.otel4s.context.LocalProvider
+import org.typelevel.otel4s.oteljava.OtelJava
+import org.typelevel.otel4s.oteljava.context.Context
+import org.typelevel.otel4s.oteljava.context.IOLocalContextStorage
+import org.typelevel.otel4s.trace.Tracer
+
+object App extends IOApp.Simple {
+
+  def program[F[_]: MonadCancelThrow: Tracer](xa: Transactor[F]): F[Int] = {
+    Tracer[F]
+      .span(&quot;program&quot;)
+      .surround(sql&quot;&quot;&quot;SELECT 1&quot;&quot;&quot;.query[Int].unique.transact(xa))
+  }
+
+  override def run: IO[Unit] = {
+    // don&#39;t forget to add
+    // javaOptions += &quot;-Dcats.effect.trackFiberContext=true&quot;
+    implicit val provider: LocalProvider[IO, Context] =
+      IOLocalContextStorage.localProvider[IO]
+
+    (for {
+      otel4s &lt;- OtelJava.autoConfigured[IO]()
+      tracer &lt;- otel4s.tracerProvider.get(&quot;tracer&quot;).toResource
+      xa &lt;- TelemetryHikariTransactor.fromHikariConfig[IO](
+        otel = otel4s.underlying,
+        config = {
+          val conf = new HikariConfig()
+          // set the right properties
+          conf
+        }
+      )
+    } yield (tracer, xa))
+      .use { case (tracer, xa) =&gt;
+        implicit val _tracer: Tracer[IO] = tracer
+        program[IO](xa).void
+      }
+  }
+}</code></pre>
         
         <h2 id="credits" class="section"><a class="anchor-link left" href="#credits"><i class="icofont-laika link">&#xef71;</i></a>Credits</h2>
         <p>This library was created by <a href="https://arturaz.net">Artūras Šlajus</a>. You can find me as <code>arturaz</code> on the
