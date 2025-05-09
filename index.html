@@ -113,7 +113,7 @@
         <pre class="keep-together pdf epub"><code class="nohighlight"><span>-</span><span class="type-name">Dcats</span><span>.</span><span class="identifier">effect</span><span>.</span><span class="identifier">trackFiberContext</span><span>=</span><span class="boolean-literal">true</span></code></pre>
         <p>The code from <code>main</code> branch can be obtained with:</p>
         <pre class="keep-together pdf epub"><code class="nohighlight"><span class="identifier">resolvers</span><span> ++= </span><span class="type-name">Resolver</span><span>.</span><span class="identifier">sonatypeOssRepos</span><span>(</span><span class="string-literal">&quot;snapshots&quot;</span><span>)
-</span><span class="identifier">libraryDependencies</span><span> += </span><span class="string-literal">&quot;io.github.arturaz&quot;</span><span> %% </span><span class="string-literal">&quot;otel4s-doobie&quot;</span><span> % </span><span class="string-literal">&quot;0.5-4872d39-SNAPSHOT&quot;</span></code></pre>
+</span><span class="identifier">libraryDependencies</span><span> += </span><span class="string-literal">&quot;io.github.arturaz&quot;</span><span> %% </span><span class="string-literal">&quot;otel4s-doobie&quot;</span><span> % </span><span class="string-literal">&quot;0.5.0-1-4149ce7-SNAPSHOT&quot;</span></code></pre>
         <p>For <a href="https://mill-build.com">mill</a>:</p>
         <pre class="keep-together pdf epub"><code class="nohighlight"><span>  </span><span class="keyword">override</span><span> </span><span class="keyword">def</span><span> </span><span class="declaration-name">repositoriesTask</span><span> = </span><span class="type-name">T</span><span>.</span><span class="identifier">task</span><span> {
     </span><span class="keyword">super</span><span>.</span><span class="identifier">repositoriesTask</span><span>() ++ </span><span class="type-name">Seq</span><span>(
@@ -122,7 +122,7 @@
   }
 
 </span><span class="keyword">override</span><span> </span><span class="keyword">def</span><span> </span><span class="declaration-name">ivyDeps</span><span> = </span><span class="type-name">Agg</span><span>(
-  </span><span class="string-literal">ivy&quot;io.github.arturaz::otel4s-doobie:0.5-4872d39-SNAPSHOT&quot;</span><span>
+  </span><span class="string-literal">ivy&quot;io.github.arturaz::otel4s-doobie:0.5.0-1-4149ce7-SNAPSHOT&quot;</span><span>
 )</span></code></pre>
         <p>You can see all the published artifacts on 
         <a href="https://mvnrepository.com/artifact/io.github.arturaz/otel4s-doobie">MVN Repository</a>.</p>
@@ -225,52 +225,52 @@
         <pre class="keep-together pdf epub"><code class="nohighlight"><span class="string-literal">&quot;org.tpolecat&quot;</span><span> %%% </span><span class="string-literal">&quot;doobie-hikari&quot;</span><span> % </span><span class="string-literal">&quot;&lt;version&gt;&quot;</span><span>,
 </span><span class="string-literal">&quot;io.opentelemetry.instrumentation&quot;</span><span> % </span><span class="string-literal">&quot;opentelemetry-hikaricp-3.0&quot;</span><span> % </span><span class="string-literal">&quot;&lt;version&gt;&quot;</span></code></pre>
         <p>Initialize a Transactor using <code>TelemetryHikariTransactor</code></p>
-        <pre><code class="scal">import cats.effect.IO
-import cats.effect.IOApp
-import cats.effect.MonadCancelThrow
-import com.zaxxer.hikari.HikariConfig
-import doobie.Transactor
-import doobie.implicits.toSqlInterpolator
-import doobie.otel4s.hikari.TelemetryHikariTransactor
-import doobie.syntax.connectionio.toConnectionIOOps
-import org.typelevel.otel4s.context.LocalProvider
-import org.typelevel.otel4s.oteljava.OtelJava
-import org.typelevel.otel4s.oteljava.context.Context
-import org.typelevel.otel4s.oteljava.context.IOLocalContextStorage
-import org.typelevel.otel4s.trace.Tracer
+        <pre><code class="nohighlight"><span class="keyword">import</span><span> </span><span class="identifier">cats</span><span>.</span><span class="identifier">effect</span><span>.</span><span class="type-name">IO</span><span>
+</span><span class="keyword">import</span><span> </span><span class="identifier">cats</span><span>.</span><span class="identifier">effect</span><span>.</span><span class="type-name">IOApp</span><span>
+</span><span class="keyword">import</span><span> </span><span class="identifier">cats</span><span>.</span><span class="identifier">effect</span><span>.</span><span class="type-name">MonadCancelThrow</span><span>
+</span><span class="keyword">import</span><span> </span><span class="identifier">com</span><span>.</span><span class="identifier">zaxxer</span><span>.</span><span class="identifier">hikari</span><span>.</span><span class="type-name">HikariConfig</span><span>
+</span><span class="keyword">import</span><span> </span><span class="identifier">doobie</span><span>.</span><span class="type-name">Transactor</span><span>
+</span><span class="keyword">import</span><span> </span><span class="identifier">doobie</span><span>.</span><span class="identifier">implicits</span><span>.</span><span class="identifier">toSqlInterpolator</span><span>
+</span><span class="keyword">import</span><span> </span><span class="identifier">doobie</span><span>.</span><span class="identifier">otel4s</span><span>.</span><span class="identifier">hikari</span><span>.</span><span class="type-name">TelemetryHikariTransactor</span><span>
+</span><span class="keyword">import</span><span> </span><span class="identifier">doobie</span><span>.</span><span class="identifier">syntax</span><span>.</span><span class="identifier">connectionio</span><span>.</span><span class="identifier">toConnectionIOOps</span><span>
+</span><span class="keyword">import</span><span> </span><span class="identifier">org</span><span>.</span><span class="identifier">typelevel</span><span>.</span><span class="identifier">otel4s</span><span>.</span><span class="identifier">context</span><span>.</span><span class="type-name">LocalProvider</span><span>
+</span><span class="keyword">import</span><span> </span><span class="identifier">org</span><span>.</span><span class="identifier">typelevel</span><span>.</span><span class="identifier">otel4s</span><span>.</span><span class="identifier">oteljava</span><span>.</span><span class="type-name">OtelJava</span><span>
+</span><span class="keyword">import</span><span> </span><span class="identifier">org</span><span>.</span><span class="identifier">typelevel</span><span>.</span><span class="identifier">otel4s</span><span>.</span><span class="identifier">oteljava</span><span>.</span><span class="identifier">context</span><span>.</span><span class="type-name">Context</span><span>
+</span><span class="keyword">import</span><span> </span><span class="identifier">org</span><span>.</span><span class="identifier">typelevel</span><span>.</span><span class="identifier">otel4s</span><span>.</span><span class="identifier">oteljava</span><span>.</span><span class="identifier">context</span><span>.</span><span class="type-name">IOLocalContextStorage</span><span>
+</span><span class="keyword">import</span><span> </span><span class="identifier">org</span><span>.</span><span class="identifier">typelevel</span><span>.</span><span class="identifier">otel4s</span><span>.</span><span class="identifier">trace</span><span>.</span><span class="type-name">Tracer</span><span>
 
-object App extends IOApp.Simple {
+</span><span class="keyword">object</span><span> </span><span class="type-name">App</span><span> </span><span class="keyword">extends</span><span> </span><span class="type-name">IOApp</span><span>.</span><span class="type-name">Simple</span><span> {
 
-  def program[F[_]: MonadCancelThrow: Tracer](xa: Transactor[F]): F[Int] = {
-    Tracer[F]
-      .span(&quot;program&quot;)
-      .surround(sql&quot;&quot;&quot;SELECT 1&quot;&quot;&quot;.query[Int].unique.transact(xa))
+  </span><span class="keyword">def</span><span> </span><span class="declaration-name">program</span><span>[</span><span class="type-name">F</span><span>[</span><span class="identifier">_</span><span>]: </span><span class="type-name">MonadCancelThrow</span><span>: </span><span class="type-name">Tracer</span><span>](</span><span class="identifier">xa</span><span>: </span><span class="type-name">Transactor</span><span>[</span><span class="type-name">F</span><span>]): </span><span class="type-name">F</span><span>[</span><span class="type-name">Int</span><span>] = {
+    </span><span class="type-name">Tracer</span><span>[</span><span class="type-name">F</span><span>]
+      .</span><span class="identifier">span</span><span>(</span><span class="string-literal">&quot;program&quot;</span><span>)
+      .</span><span class="identifier">surround</span><span>(</span><span class="string-literal">sql&quot;&quot;&quot;SELECT 1&quot;&quot;&quot;</span><span>.</span><span class="identifier">query</span><span>[</span><span class="type-name">Int</span><span>].</span><span class="identifier">unique</span><span>.</span><span class="identifier">transact</span><span>(</span><span class="identifier">xa</span><span>))
   }
 
-  override def run: IO[Unit] = {
-    // don&#39;t forget to add
-    // javaOptions += &quot;-Dcats.effect.trackFiberContext=true&quot;
-    implicit val provider: LocalProvider[IO, Context] =
-      IOLocalContextStorage.localProvider[IO]
+  </span><span class="keyword">override</span><span> </span><span class="keyword">def</span><span> </span><span class="declaration-name">run</span><span>: </span><span class="type-name">IO</span><span>[</span><span class="type-name">Unit</span><span>] = {
+    </span><span class="comment">// don&#39;t forget to add
+</span><span>    </span><span class="comment">// javaOptions += &quot;-Dcats.effect.trackFiberContext=true&quot;
+</span><span>    </span><span class="keyword">implicit</span><span> </span><span class="keyword">val</span><span> </span><span class="identifier">provider</span><span>: </span><span class="type-name">LocalProvider</span><span>[</span><span class="type-name">IO</span><span>, </span><span class="type-name">Context</span><span>] =
+      </span><span class="type-name">IOLocalContextStorage</span><span>.</span><span class="identifier">localProvider</span><span>[</span><span class="type-name">IO</span><span>]
 
-    (for {
-      otel4s &lt;- OtelJava.autoConfigured[IO]()
-      tracer &lt;- otel4s.tracerProvider.get(&quot;tracer&quot;).toResource
-      xa &lt;- TelemetryHikariTransactor.fromHikariConfig[IO](
-        otel = otel4s.underlying,
-        config = {
-          val conf = new HikariConfig()
-          // set the right properties
-          conf
+    (</span><span class="keyword">for</span><span> {
+      </span><span class="identifier">otel4s</span><span> &lt;- </span><span class="type-name">OtelJava</span><span>.</span><span class="identifier">autoConfigured</span><span>[</span><span class="type-name">IO</span><span>]()
+      </span><span class="identifier">tracer</span><span> &lt;- </span><span class="identifier">otel4s</span><span>.</span><span class="identifier">tracerProvider</span><span>.</span><span class="identifier">get</span><span>(</span><span class="string-literal">&quot;tracer&quot;</span><span>).</span><span class="identifier">toResource</span><span>
+      </span><span class="identifier">xa</span><span> &lt;- </span><span class="type-name">TelemetryHikariTransactor</span><span>.</span><span class="identifier">fromHikariConfig</span><span>[</span><span class="type-name">IO</span><span>](
+        </span><span class="identifier">otel</span><span> = </span><span class="identifier">otel4s</span><span>.</span><span class="identifier">underlying</span><span>,
+        </span><span class="identifier">config</span><span> = {
+          </span><span class="keyword">val</span><span> </span><span class="identifier">conf</span><span> = </span><span class="keyword">new</span><span> </span><span class="type-name">HikariConfig</span><span>()
+          </span><span class="comment">// set the right properties
+</span><span>          </span><span class="identifier">conf</span><span>
         }
       )
-    } yield (tracer, xa))
-      .use { case (tracer, xa) =&gt;
-        implicit val _tracer: Tracer[IO] = tracer
-        program[IO](xa).void
+    } </span><span class="keyword">yield</span><span> (</span><span class="identifier">tracer</span><span>, </span><span class="identifier">xa</span><span>))
+      .</span><span class="identifier">use</span><span> { </span><span class="keyword">case</span><span> (</span><span class="identifier">tracer</span><span>, </span><span class="identifier">xa</span><span>) =&gt;
+        </span><span class="keyword">implicit</span><span> </span><span class="keyword">val</span><span> </span><span class="identifier">_tracer</span><span>: </span><span class="type-name">Tracer</span><span>[</span><span class="type-name">IO</span><span>] = </span><span class="identifier">tracer</span><span>
+        </span><span class="identifier">program</span><span>[</span><span class="type-name">IO</span><span>](</span><span class="identifier">xa</span><span>).</span><span class="identifier">void</span><span>
       }
   }
-}</code></pre>
+}</span></code></pre>
         
         <h2 id="credits" class="section"><a class="anchor-link left" href="#credits"><i class="icofont-laika link">&#xef71;</i></a>Credits</h2>
         <p>This library was created by <a href="https://arturaz.net">Artūras Šlajus</a>. You can find me as <code>arturaz</code> on the
