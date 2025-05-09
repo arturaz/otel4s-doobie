@@ -182,7 +182,10 @@ This library was created by [Artūras Šlajus](https://arturaz.net). You can fin
 ### v0.5.0
 
 - Upgraded Doobie from `1.0.0-RC8` to `1.0.0-RC9`.
-- Use opentelemetry-jdbc instead of custom transactor (https://github.com/arturaz/otel4s-doobie/pull/5).
+- [Use opentelemetry-jdbc instead of custom transactor](https://github.com/arturaz/otel4s-doobie/pull/5)
+  by [@AlixBa](https://github.com/AlixBa).
+- [Add HikariTelemetryTransactor (metric+tracing)](https://github.com/arturaz/otel4s-doobie/pull/6)
+  by [@AlixBa](https://github.com/AlixBa).
 
 ### v0.4.0
 
