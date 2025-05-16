@@ -47,9 +47,9 @@ lazy val core = project
       // https://mvnrepository.com/artifact/org.tpolecat/doobie-hikari
       "org.tpolecat" %%% "doobie-hikari" % "1.0.0-RC9" % Provided,
       // https://mvnrepository.com/artifact/io.opentelemetry.instrumentation/opentelemetry-jdbc
-      "io.opentelemetry.instrumentation" % "opentelemetry-jdbc" % "2.15.0-alpha",
+      "io.opentelemetry.instrumentation" % "opentelemetry-jdbc" % "2.16.0-alpha",
       // https://mvnrepository.com/artifact/io.opentelemetry.instrumentation/opentelemetry-hikaricp-3.0
-      "io.opentelemetry.instrumentation" % "opentelemetry-hikaricp-3.0" % "2.15.0-alpha" % Provided,
+      "io.opentelemetry.instrumentation" % "opentelemetry-hikaricp-3.0" % "2.16.0-alpha" % Provided,
       // https://mvnrepository.com/artifact/org.typelevel/otel4s-oteljava-context-storage
       "org.typelevel" %% "otel4s-oteljava-context-storage" % "0.12.0",
       // https://mvnrepository.com/artifact/org.scalameta/munit
