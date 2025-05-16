@@ -19,11 +19,28 @@ object TelemetryHikariTransactor {
   def fromHikariConfig[M[_]: Async](
       otel: OpenTelemetry,
       config: HikariConfig,
-      logHandler: Option[LogHandler[M]] = None,
-      statementInstrumenterEnabled: Boolean = true,
-      statementSanitizationEnabled: Boolean = true,
-      captureQueryParameters: Boolean = false,
-      transactionInstrumenterEnabled: Boolean = false
+      logHandler: Option[LogHandler[M]] = None
+  ): Resource[M, Aux[M, DataSource]] =
+    fromHikariConfig(
+      otel = otel,
+      config = config,
+      logHandler = logHandler,
+      statementInstrumenterEnabled = true,
+      statementSanitizationEnabled = true,
+      captureQueryParameters = false,
+      transactionInstrumenterEnabled = false
+    )
+
+  /** Creates a Transactor from a HikariConfig with tracing and metrics
+    */
+  def fromHikariConfig[M[_]: Async](
+      otel: OpenTelemetry,
+      config: HikariConfig,
+      logHandler: Option[LogHandler[M]],
+      statementInstrumenterEnabled: Boolean,
+      statementSanitizationEnabled: Boolean,
+      captureQueryParameters: Boolean,
+      transactionInstrumenterEnabled: Boolean
   ): Resource[M, Aux[M, DataSource]] =
     HikariTransactor
       .fromHikariConfig(MetricHikariConfig.fromConfig(otel, config), logHandler)
