@@ -23,7 +23,8 @@ object TraceTransactor {
       transactionInstrumenterEnabled: Boolean = false
   ): Transactor.Aux[M, DataSource] =
     transactor.copy(
-      kernel0 = JdbcTelemetry.builder(otel)
+      kernel0 = JdbcTelemetry
+        .builder(otel)
         .setDataSourceInstrumenterEnabled(true)
         .setStatementInstrumenterEnabled(statementInstrumenterEnabled)
         .setStatementSanitizationEnabled(statementSanitizationEnabled)
