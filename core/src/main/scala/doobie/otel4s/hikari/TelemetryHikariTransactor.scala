@@ -19,13 +19,26 @@ object TelemetryHikariTransactor {
   def fromHikariConfig[M[_]: Async](
       otel: OpenTelemetry,
       config: HikariConfig,
-      logHandler: Option[LogHandler[M]] = None
+      logHandler: Option[LogHandler[M]] = None,
+      statementInstrumenterEnabled: Boolean = true,
+      statementSanitizationEnabled: Boolean = true,
+      captureQueryParameters: Boolean = false,
+      transactionInstrumenterEnabled: Boolean = false
   ): Resource[M, Aux[M, DataSource]] =
     HikariTransactor
       .fromHikariConfig(MetricHikariConfig.fromConfig(otel, config), logHandler)
       // not super safe but works as long as Doobie isn't using Hikari specific
       // methods on the connect method, which is the case as of this commit
       .map(_.asInstanceOf[Transactor.Aux[M, DataSource]])
-      .map(TraceTransactor.fromDataSource(otel, _))
+      .map(transactor =>
+        TraceTransactor.fromDataSource(
+          otel = otel,
+          transactor = transactor,
+          statementInstrumenterEnabled = statementInstrumenterEnabled,
+          statementSanitizationEnabled = statementSanitizationEnabled,
+          captureQueryParameters = captureQueryParameters,
+          transactionInstrumenterEnabled = transactionInstrumenterEnabled
+        )
+      )
 
 }
