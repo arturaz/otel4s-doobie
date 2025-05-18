@@ -51,12 +51,13 @@ You can see all the published artifacts on
 Due to the usage of RC versions, binary compatibility is finicky. Consult this table to know which versions are compatible.
 
 | Library Version | Doobie Version | Otel4s Version | Cats Effect Version |
-|-----------------|----------------|----------------|---------------------|
-| 0.5.0           | 1.0.0-RC9      | 0.12.0         | 3.6.0               |
-| 0.4.0           | 1.0.0-RC8      | 0.12.0         | 3.6.0               |
-| 0.3.0           | 1.0.0-RC8      | 0.12.0-RC3     | 3.5.7               | 
-| 0.2.0           | 1.0.0-RC8      | 0.12.0-RC2     | 3.5.7               |
-| 0.1.0           | 1.0.0-RC5      | 0.12.0-RC2     | 3.5.7               |
+|-------------|----------------|----------------|---------------------|
+| 0.6.0       | 1.0.0-RC9      | 0.12.0         | 3.6.0               |
+| 0.5.0       | 1.0.0-RC9      | 0.12.0         | 3.6.0               |
+| 0.4.0       | 1.0.0-RC8      | 0.12.0         | 3.6.0               |
+| 0.3.0       | 1.0.0-RC8      | 0.12.0-RC3     | 3.5.7               | 
+| 0.2.0       | 1.0.0-RC8      | 0.12.0-RC2     | 3.5.7               |
+| 0.1.0       | 1.0.0-RC5      | 0.12.0-RC2     | 3.5.7               |
 
 ### Usage
 
@@ -178,6 +179,10 @@ This library was created by [Artūras Šlajus](https://arturaz.net). You can fin
 [Typelevel Discord Server](https://discord.gg/XF3CXcMzqD) in the `#doobie` channel.
 
 ## Changelog
+
+### v0.6.0
+- [Upgraded OpenTelemetry JDBC from `2.15.0-alpha` to `2.16.0-alpha`](https://github.com/arturaz/otel4s-doobie/pull/7)
+- [Expose telemetry options](https://github.com/arturaz/otel4s-doobie/pull/7)
 
 ### v0.5.0
 
