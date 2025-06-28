@@ -114,7 +114,7 @@
         <pre class="keep-together pdf epub"><code class="nohighlight"><span>-</span><span class="type-name">Dcats</span><span>.</span><span class="identifier">effect</span><span>.</span><span class="identifier">trackFiberContext</span><span>=</span><span class="boolean-literal">true</span></code></pre>
         <p>The code from <code>main</code> branch can be obtained with:</p>
         <pre class="keep-together pdf epub"><code class="nohighlight"><span class="identifier">resolvers</span><span> ++= </span><span class="type-name">Resolver</span><span>.</span><span class="identifier">sonatypeOssRepos</span><span>(</span><span class="string-literal">&quot;snapshots&quot;</span><span>)
-</span><span class="identifier">libraryDependencies</span><span> += </span><span class="string-literal">&quot;io.github.arturaz&quot;</span><span> %% </span><span class="string-literal">&quot;otel4s-doobie&quot;</span><span> % </span><span class="string-literal">&quot;0.5.0-12-5d83f6d-SNAPSHOT&quot;</span></code></pre>
+</span><span class="identifier">libraryDependencies</span><span> += </span><span class="string-literal">&quot;io.github.arturaz&quot;</span><span> %% </span><span class="string-literal">&quot;otel4s-doobie&quot;</span><span> % </span><span class="string-literal">&quot;0.5.0-14-0d5d6e2-SNAPSHOT&quot;</span></code></pre>
         <p>For <a href="https://mill-build.com">mill</a>:</p>
         <pre class="keep-together pdf epub"><code class="nohighlight"><span>  </span><span class="keyword">override</span><span> </span><span class="keyword">def</span><span> </span><span class="declaration-name">repositoriesTask</span><span> = </span><span class="type-name">T</span><span>.</span><span class="identifier">task</span><span> {
     </span><span class="keyword">super</span><span>.</span><span class="identifier">repositoriesTask</span><span>() ++ </span><span class="type-name">Seq</span><span>(
@@ -123,9 +123,9 @@
   }
 
 </span><span class="keyword">override</span><span> </span><span class="keyword">def</span><span> </span><span class="declaration-name">ivyDeps</span><span> = </span><span class="type-name">Agg</span><span>(
-  </span><span class="string-literal">ivy&quot;io.github.arturaz::otel4s-doobie:0.5.0-12-5d83f6d-SNAPSHOT&quot;</span><span>
+  </span><span class="string-literal">ivy&quot;io.github.arturaz::otel4s-doobie:0.5.0-14-0d5d6e2-SNAPSHOT&quot;</span><span>
 )</span></code></pre>
-        <p>You can see all the published artifacts on 
+        <p>You can see all the published artifacts on
         <a href="https://mvnrepository.com/artifact/io.github.arturaz/otel4s-doobie">MVN Repository</a>.</p>
         
         <h4 id="versions-table" class="section"><a class="anchor-link left" href="#versions-table"><i class="icofont-laika link">&#xef71;</i></a>Versions table</h4>
@@ -143,7 +143,7 @@
             <tr>
               <td>0.6.0</td>
               <td>1.0.0-RC9</td>
-              <td>0.12.0</td>
+              <td>0.13.0</td>
               <td>3.6.0</td>
             </tr>
             <tr>
@@ -302,7 +302,7 @@
         
         <h3 id="v0-4-0" class="section"><a class="anchor-link left" href="#v0-4-0"><i class="icofont-laika link">&#xef71;</i></a>v0.4.0</h3>
         <ul>
-          <li>Upgraded Otel4s from <code>0.12.0-RC3</code> to <code>0.12.0</code>, which also bumps the cats-effect version from <code>3.5.7</code> 
+          <li>Upgraded Otel4s from <code>0.12.0-RC3</code> to <code>0.12.0</code>, which also bumps the cats-effect version from <code>3.5.7</code>
           to <code>3.6.0</code>.</li>
         </ul>
         
