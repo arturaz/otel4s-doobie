@@ -64,6 +64,7 @@ lazy val core = project
       "prepareCi",
       "scalafmtAll;scalafmtSbt;scalafixAll;+ test;docs/tlSite;mimaReportBinaryIssues"
     ),
+    mimaFailOnProblem := false, // do not fail on MiMa failures until library reaches 1.0.0
     Test / fork := true,
     Test / javaOptions += "-Dcats.effect.trackFiberContext=true"
   )
