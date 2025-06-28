@@ -43,7 +43,7 @@ override def ivyDeps = Agg(
 )
 ```
 
-You can see all the published artifacts on 
+You can see all the published artifacts on
 [MVN Repository](https://mvnrepository.com/artifact/io.github.arturaz/otel4s-doobie).
 
 #### Versions table
@@ -51,13 +51,13 @@ You can see all the published artifacts on
 Due to the usage of RC versions, binary compatibility is finicky. Consult this table to know which versions are compatible.
 
 | Library Version | Doobie Version | Otel4s Version | Cats Effect Version |
-|-------------|----------------|----------------|---------------------|
-| 0.6.0       | 1.0.0-RC9      | 0.12.0         | 3.6.0               |
-| 0.5.0       | 1.0.0-RC9      | 0.12.0         | 3.6.0               |
-| 0.4.0       | 1.0.0-RC8      | 0.12.0         | 3.6.0               |
-| 0.3.0       | 1.0.0-RC8      | 0.12.0-RC3     | 3.5.7               | 
-| 0.2.0       | 1.0.0-RC8      | 0.12.0-RC2     | 3.5.7               |
-| 0.1.0       | 1.0.0-RC5      | 0.12.0-RC2     | 3.5.7               |
+|-----------------|----------------|----------------|---------------------|
+| 0.6.0           | 1.0.0-RC9      | 0.13.0         | 3.6.0               |
+| 0.5.0           | 1.0.0-RC9      | 0.12.0         | 3.6.0               |
+| 0.4.0           | 1.0.0-RC8      | 0.12.0         | 3.6.0               |
+| 0.3.0           | 1.0.0-RC8      | 0.12.0-RC3     | 3.5.7               |
+| 0.2.0           | 1.0.0-RC8      | 0.12.0-RC2     | 3.5.7               |
+| 0.1.0           | 1.0.0-RC5      | 0.12.0-RC2     | 3.5.7               |
 
 ### Usage
 
@@ -194,7 +194,7 @@ This library was created by [Artūras Šlajus](https://arturaz.net). You can fin
 
 ### v0.4.0
 
-- Upgraded Otel4s from `0.12.0-RC3` to `0.12.0`, which also bumps the cats-effect version from `3.5.7` 
+- Upgraded Otel4s from `0.12.0-RC3` to `0.12.0`, which also bumps the cats-effect version from `3.5.7`
   to `3.6.0`.
 
 ### v0.3.0
