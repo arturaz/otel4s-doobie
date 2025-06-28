@@ -41,7 +41,7 @@ lazy val core = project
       // https://mvnrepository.com/artifact/org.typelevel/cats-effect
       "org.typelevel" %%% "cats-effect" % "3.6.0",
       // https://mvnrepository.com/artifact/org.typelevel/otel4s-java
-      "org.typelevel" %%% "otel4s-oteljava" % "0.12.0",
+      "org.typelevel" %%% "otel4s-oteljava" % "0.13.0",
       // https://mvnrepository.com/artifact/org.tpolecat/doobie-core
       "org.tpolecat" %%% "doobie-core" % "1.0.0-RC9",
       // https://mvnrepository.com/artifact/org.tpolecat/doobie-hikari
@@ -51,12 +51,12 @@ lazy val core = project
       // https://mvnrepository.com/artifact/io.opentelemetry.instrumentation/opentelemetry-hikaricp-3.0
       "io.opentelemetry.instrumentation" % "opentelemetry-hikaricp-3.0" % "2.16.0-alpha" % Provided,
       // https://mvnrepository.com/artifact/org.typelevel/otel4s-oteljava-context-storage
-      "org.typelevel" %% "otel4s-oteljava-context-storage" % "0.12.0",
+      "org.typelevel" %% "otel4s-oteljava-context-storage" % "0.13.0",
       // https://mvnrepository.com/artifact/org.scalameta/munit
       "org.scalameta" %%% "munit" % "1.1.0" % Test,
       "org.typelevel" %%% "munit-cats-effect" % "2.0.0" % Test,
       // https://mvnrepository.com/artifact/org.typelevel/otel4s-oteljava-testkit
-      "org.typelevel" %% "otel4s-oteljava-testkit" % "0.12.0" % Test,
+      "org.typelevel" %% "otel4s-oteljava-testkit" % "0.13.0" % Test,
       // https://mvnrepository.com/artifact/com.h2database/h2
       "com.h2database" % "h2" % "2.3.232" % Test
     ),
