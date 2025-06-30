@@ -181,6 +181,10 @@ This library was created by [Artūras Šlajus](https://arturaz.net). You can fin
 
 ## Changelog
 
+### v0.7.1
+
+- [Removed `otel4s-oteljava-context-storage` from `Compile` dependencies](https://github.com/arturaz/otel4s-doobie/pull/11/)
+
 ### v0.7.0
 
 - [Upgraded otel4s from `0.12.0` to `0.13.0`](https://github.com/arturaz/otel4s-doobie/pull/9).
