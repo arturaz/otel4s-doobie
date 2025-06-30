@@ -1,5 +1,5 @@
 // https://typelevel.org/sbt-typelevel/faq.html#what-is-a-base-version-anyway
-ThisBuild / tlBaseVersion := "0.5" // your current series x.y
+ThisBuild / tlBaseVersion := "0.7" // your current series x.y
 
 ThisBuild / organization := "io.github.arturaz"
 ThisBuild / organizationName := "arturaz"
@@ -48,7 +48,7 @@ lazy val core = project
       // https://mvnrepository.com/artifact/io.opentelemetry.instrumentation/opentelemetry-hikaricp-3.0
       "io.opentelemetry.instrumentation" % "opentelemetry-hikaricp-3.0" % "2.16.0-alpha" % Provided,
       // https://mvnrepository.com/artifact/org.typelevel/otel4s-oteljava-context-storage
-      "org.typelevel" %% "otel4s-oteljava-context-storage" % "0.13.0",
+      "org.typelevel" %% "otel4s-oteljava-context-storage" % "0.13.0" % Test,
       // https://mvnrepository.com/artifact/org.scalameta/munit
       "org.scalameta" %%% "munit" % "1.1.0" % Test,
       "org.typelevel" %%% "munit-cats-effect" % "2.0.0" % Test,
@@ -61,7 +61,6 @@ lazy val core = project
       "prepareCi",
       "scalafmtAll;scalafmtSbt;scalafixAll;+ test;docs/tlSite;mimaReportBinaryIssues"
     ),
-    mimaFailOnProblem := false, // do not fail on MiMa failures until library reaches 1.0.0
     Test / fork := true,
     Test / javaOptions += "-Dcats.effect.trackFiberContext=true"
   )
