@@ -1,5 +1,5 @@
 // https://typelevel.org/sbt-typelevel/faq.html#what-is-a-base-version-anyway
-ThisBuild / tlBaseVersion := "0.8" // your current series x.y
+ThisBuild / tlBaseVersion := "0.7" // your current series x.y
 
 ThisBuild / organization := "io.github.arturaz"
 ThisBuild / organizationName := "arturaz"
@@ -61,7 +61,6 @@ lazy val core = project
       "prepareCi",
       "scalafmtAll;scalafmtSbt;scalafixAll;+ test;docs/tlSite;mimaReportBinaryIssues"
     ),
-    mimaFailOnProblem := false, // do not fail on MiMa failures until library reaches 1.0.0
     Test / fork := true,
     Test / javaOptions += "-Dcats.effect.trackFiberContext=true"
   )
