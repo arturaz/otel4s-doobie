@@ -52,7 +52,7 @@ Due to the usage of RC versions, binary compatibility is finicky. Consult this t
 
 | Library Version | Doobie Version | Otel4s Version | Cats Effect Version |
 |-----------------|----------------|----------------|---------------------|
-| 0.7.0           | 1.0.0-RC9      | 0.13.0         | 3.6.0               |
+| 0.7.x           | 1.0.0-RC9      | 0.13.0         | 3.6.0               |
 | 0.6.0           | 1.0.0-RC9      | 0.12.0         | 3.6.0               |
 | 0.5.0           | 1.0.0-RC9      | 0.12.0         | 3.6.0               |
 | 0.4.0           | 1.0.0-RC8      | 0.12.0         | 3.6.0               |
