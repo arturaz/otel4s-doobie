@@ -52,6 +52,7 @@ Due to the usage of RC versions, binary compatibility is finicky. Consult this t
 
 | Library Version | Doobie Version | Otel4s Version | Cats Effect Version |
 |-----------------|----------------|----------------|---------------------|
+| 0.8.x           | 1.0.0-RC10     | 0.13.1         | 3.6.3               |
 | 0.7.x           | 1.0.0-RC9      | 0.13.0         | 3.6.0               |
 | 0.6.0           | 1.0.0-RC9      | 0.12.0         | 3.6.0               |
 | 0.5.0           | 1.0.0-RC9      | 0.12.0         | 3.6.0               |
@@ -180,6 +181,10 @@ This library was created by [Artūras Šlajus](https://arturaz.net). You can fin
 [Typelevel Discord Server](https://discord.gg/XF3CXcMzqD) in the `#doobie` channel.
 
 ## Changelog
+
+### v0.8.0
+
+- [Update dependencies](https://github.com/arturaz/otel4s-doobie/pull/12/)
 
 ### v0.7.1
 
