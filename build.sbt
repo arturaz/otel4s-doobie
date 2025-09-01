@@ -1,5 +1,5 @@
 // https://typelevel.org/sbt-typelevel/faq.html#what-is-a-base-version-anyway
-ThisBuild / tlBaseVersion := "0.7" // your current series x.y
+ThisBuild / tlBaseVersion := "0.8" // your current series x.y
 
 ThisBuild / organization := "io.github.arturaz"
 ThisBuild / organizationName := "arturaz"
@@ -36,22 +36,22 @@ lazy val core = project
       // https://mvnrepository.com/artifact/org.typelevel/cats-core
       "org.typelevel" %%% "cats-core" % "2.13.0",
       // https://mvnrepository.com/artifact/org.typelevel/cats-effect
-      "org.typelevel" %%% "cats-effect" % "3.6.0",
+      "org.typelevel" %%% "cats-effect" % "3.6.3",
       // https://mvnrepository.com/artifact/org.typelevel/otel4s-java
-      "org.typelevel" %%% "otel4s-oteljava" % "0.13.0",
+      "org.typelevel" %%% "otel4s-oteljava" % "0.13.1",
       // https://mvnrepository.com/artifact/org.tpolecat/doobie-core
-      "org.tpolecat" %%% "doobie-core" % "1.0.0-RC9",
+      "org.tpolecat" %%% "doobie-core" % "1.0.0-RC10",
       // https://mvnrepository.com/artifact/org.tpolecat/doobie-hikari
-      "org.tpolecat" %%% "doobie-hikari" % "1.0.0-RC9" % Provided,
+      "org.tpolecat" %%% "doobie-hikari" % "1.0.0-RC10" % Provided,
       // https://mvnrepository.com/artifact/io.opentelemetry.instrumentation/opentelemetry-jdbc
-      "io.opentelemetry.instrumentation" % "opentelemetry-jdbc" % "2.16.0-alpha",
+      "io.opentelemetry.instrumentation" % "opentelemetry-jdbc" % "2.19.0-alpha",
       // https://mvnrepository.com/artifact/io.opentelemetry.instrumentation/opentelemetry-hikaricp-3.0
       "io.opentelemetry.instrumentation" % "opentelemetry-hikaricp-3.0" % "2.16.0-alpha" % Provided,
       // https://mvnrepository.com/artifact/org.typelevel/otel4s-oteljava-context-storage
       "org.typelevel" %% "otel4s-oteljava-context-storage" % "0.13.0" % Test,
       // https://mvnrepository.com/artifact/org.scalameta/munit
-      "org.scalameta" %%% "munit" % "1.1.0" % Test,
-      "org.typelevel" %%% "munit-cats-effect" % "2.0.0" % Test,
+      "org.scalameta" %%% "munit" % "1.1.1" % Test,
+      "org.typelevel" %%% "munit-cats-effect" % "2.1.0" % Test,
       // https://mvnrepository.com/artifact/org.typelevel/otel4s-oteljava-testkit
       "org.typelevel" %% "otel4s-oteljava-testkit" % "0.13.0" % Test,
       // https://mvnrepository.com/artifact/com.h2database/h2
