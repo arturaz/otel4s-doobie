@@ -11,7 +11,7 @@ import org.h2.jdbcx.JdbcDataSource
 import org.typelevel.otel4s.context.LocalProvider
 import org.typelevel.otel4s.oteljava.OtelJava
 import org.typelevel.otel4s.oteljava.context.Context
-import org.typelevel.otel4s.oteljava.context.IOLocalContextStorage
+import org.typelevel.otel4s.oteljava.testkit.context.IOLocalTestContextStorage
 
 import javax.sql.DataSource
 import scala.jdk.CollectionConverters.CollectionHasAsScala
@@ -58,14 +58,12 @@ class TraceTransactorSuite extends CatsEffectSuite {
     }
   }
 
-  // ignored:
-  // https://github.com/typelevel/otel4s/issues/959
-  test("should trace from Scala to Java".ignore) {
+  test("should trace from Scala to Java") {
     implicit val provider: LocalProvider[IO, Context] =
-      IOLocalContextStorage.localProvider[IO]
+      IOLocalTestContextStorage.localProvider[IO]
 
     (for {
-      jotel <- InMemoryJOpenTelemetry.forF[IO]
+      jotel <- InMemoryJOpenTelemetry.forIO
       otel <- OtelJava.fromJOpenTelemetry[IO](jotel.otel).toResource
       tracer <- otel.tracerProvider.get("io.swan.app").toResource
     } yield (jotel, tracer)).use { case (otel, tracer) =>

@@ -9,69 +9,64 @@ import munit.CatsEffectSuite
 import org.typelevel.otel4s.context.LocalProvider
 import org.typelevel.otel4s.oteljava.OtelJava
 import org.typelevel.otel4s.oteljava.context.Context
-import org.typelevel.otel4s.oteljava.context.IOLocalContextStorage
+import org.typelevel.otel4s.oteljava.testkit.context.IOLocalTestContextStorage
 
 import scala.jdk.CollectionConverters.CollectionHasAsScala
 import scala.jdk.CollectionConverters.ListHasAsScala
 
 class TelemetryHikariTransactorSpec extends CatsEffectSuite {
 
-  // ignored:
-  // https://github.com/typelevel/otel4s/issues/959
-  test("should init a HikariDataSource with metrics and spans".ignore) {
+  test("should init a HikariDataSource with metrics and spans") {
     implicit val provider: LocalProvider[IO, Context] =
-      IOLocalContextStorage.localProvider[IO]
+      IOLocalTestContextStorage.localProvider[IO]
 
     val config = new HikariConfig()
     config.setPoolName("TelemetryHikariTransactorSpec")
     config.setJdbcUrl("jdbc:h2:mem:test_database")
 
     (for {
-      jotel <- InMemoryJOpenTelemetry.forF[IO]
+      jotel <- InMemoryJOpenTelemetry.forIO
       otel <- OtelJava.fromJOpenTelemetry[IO](jotel.otel).toResource
-      tracer <- otel.tracerProvider.get("io.swan.app").toResource
       xa <- TelemetryHikariTransactor.fromHikariConfig[IO](jotel.otel, config)
-    } yield (jotel, tracer, xa))
-      .use { case (otel, tracer, xa) =>
-        tracer
-          .rootSpan("ROOT_SPAN")
-          .use { root =>
-            sql"""SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES"""
-              .query[String]
-              .to[Vector]
-              .transact(xa)
-              .as(root)
+    } yield (jotel, otel, xa))
+      .use { case (jotel, otel, xa) =>
+        otel.tracerProvider
+          .get("otel4s-doobie")
+          .flatMap {
+            _.rootSpan("ROOT_SPAN").use { root =>
+              sql"""SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES"""
+                .query[String]
+                .to[Vector]
+                .transact(xa)
+                .as(root.context.traceIdHex)
+            }
           }
-          .map { root =>
-            val spans = otel.traces.getFinishedSpanItems.asScala.toVector
+          .flatMap(traceId =>
+            for {
+              spans <- IO(jotel.traces.getFinishedSpanItems().asScala.toVector)
+              metrics <- IO(jotel.metrics.collectAllMetrics.asScala.toVector)
+            } yield (traceId, spans, metrics)
+          )
+          .map { case (traceId, spans, metrics) =>
+            // spans checks
             assertEquals(spans.size, 3)
-            assertEquals(
-              spans.map(_.getTraceId).distinct,
-              Vector(root.context.traceIdHex)
-            )
-            assert(spans.exists(_.getName == "ROOT_SPAN"))
-            assert(spans.exists(_.getName == "HikariDataSource.getConnection"))
-            assert(
-              spans.exists(_.getName == "SELECT INFORMATION_SCHEMA.TABLES")
-            )
+            assertEquals(spans.map(_.getTraceId).distinct, Vector(traceId))
 
-            val metrics = otel.metrics.collectAllMetrics().asScala.toVector
-            assert(metrics.exists(_.getName == "db.client.connections.max"))
-            assert(
-              metrics.exists(_.getName == "db.client.connections.wait_time")
-            )
-            assert(
-              metrics.exists(_.getName == "db.client.connections.use_time")
-            )
-            assert(
-              metrics.exists(_.getName == "db.client.connections.idle.min")
-            )
-            assert(
-              metrics
-                .exists(_.getName == "db.client.connections.pending_requests")
-            )
-            assert(metrics.exists(_.getName == "db.client.connections.usage"))
+            List(
+              "ROOT_SPAN",
+              "HikariDataSource.getConnection",
+              "SELECT INFORMATION_SCHEMA.TABLES"
+            ).foreach(name => spans.exists(_.getName == name))
 
+            // metrics checks
+            List(
+              "db.client.connections.max",
+              "db.client.connections.wait_time",
+              "db.client.connections.use_time",
+              "db.client.connections.idle.min",
+              "db.client.connections.pending_requests",
+              "db.client.connections.usage"
+            ).foreach(name => metrics.exists(_.getName == name))
           }
       }
   }
