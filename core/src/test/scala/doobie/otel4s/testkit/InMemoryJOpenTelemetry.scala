@@ -1,9 +1,7 @@
 package doobie.otel4s.testkit
 
 import cats.effect.IO
-import cats.effect.kernel.Async
 import cats.effect.kernel.Resource
-import cats.syntax.all.*
 import io.opentelemetry.api.OpenTelemetry
 import io.opentelemetry.api.trace.propagation.W3CTraceContextPropagator
 import io.opentelemetry.context.propagation.ContextPropagators
@@ -27,43 +25,55 @@ case class InMemoryJOpenTelemetry(
 object InMemoryJOpenTelemetry {
 
   def forIO: Resource[IO, InMemoryJOpenTelemetry] =
-    forF[IO]
+    for {
+      logExporter <- IO.delay(InMemoryLogRecordExporter.create()).toResource
+      metricReader <- IO.delay(InMemoryMetricReader.create()).toResource
+      spanExporter <- IO.delay(InMemorySpanExporter.create()).toResource
 
-  def forF[F[_]: Async]: Resource[F, InMemoryJOpenTelemetry] = {
-    val logs = InMemoryLogRecordExporter.create()
-    val metrics = InMemoryMetricReader.create()
-    val traces = InMemorySpanExporter.create()
+      logProcessor <- Resource.fromAutoCloseable(
+        IO.delay(SimpleLogRecordProcessor.create(logExporter))
+      )
+      spanProcessor <- Resource.fromAutoCloseable(
+        IO.delay(SimpleSpanProcessor.create(spanExporter))
+      )
 
-    Resource
-      .make(
-        Async[F].catchNonFatal(
+      // not fromAutoCloseable because OpenTelemetrySdk.shutdown already does it
+      loggerProvider <- Resource.eval(
+        IO.delay(
+          SdkLoggerProvider
+            .builder()
+            .addLogRecordProcessor(logProcessor)
+            .build()
+        )
+      )
+      meterProvider <- Resource.eval(
+        IO.delay(
+          SdkMeterProvider.builder().registerMetricReader(metricReader).build()
+        )
+      )
+      tracerProvider <- Resource.eval(
+        IO.delay(
+          SdkTracerProvider.builder().addSpanProcessor(spanProcessor).build()
+        )
+      )
+      openTelemetry <- Resource.fromAutoCloseable(
+        IO.delay(
           OpenTelemetrySdk
             .builder()
-            .setLoggerProvider(
-              SdkLoggerProvider
-                .builder()
-                .addLogRecordProcessor(SimpleLogRecordProcessor.create(logs))
-                .build()
-            )
-            .setMeterProvider(
-              SdkMeterProvider
-                .builder()
-                .registerMetricReader(metrics)
-                .build()
-            )
-            .setTracerProvider(
-              SdkTracerProvider
-                .builder()
-                .addSpanProcessor(SimpleSpanProcessor.create(traces))
-                .build()
-            )
+            .setLoggerProvider(loggerProvider)
+            .setMeterProvider(meterProvider)
+            .setTracerProvider(tracerProvider)
             .setPropagators(
               ContextPropagators.create(W3CTraceContextPropagator.getInstance())
             )
             .build()
         )
-      )(otel => Async[F].delay(otel.shutdown()).void)
-      .map(otel => InMemoryJOpenTelemetry(otel, logs, metrics, traces))
-  }
+      )
+    } yield InMemoryJOpenTelemetry(
+      openTelemetry,
+      logExporter,
+      metricReader,
+      spanExporter
+    )
 
 }
