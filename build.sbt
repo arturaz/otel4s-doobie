@@ -19,7 +19,7 @@ ThisBuild / tlSitePublishBranch := Some("master")
 // Disable the checks, I don't want to deal with them right now.
 ThisBuild / tlCiHeaderCheck := false
 
-val Scala213 = "2.13.16"
+val Scala213 = "2.13.17"
 ThisBuild / crossScalaVersions := Seq(Scala213, "3.3.4")
 ThisBuild / scalaVersion := Scala213 // the default Scala
 
@@ -40,9 +40,9 @@ lazy val core = project
       // https://mvnrepository.com/artifact/org.typelevel/otel4s-java
       "org.typelevel" %%% "otel4s-oteljava" % "0.14.0",
       // https://mvnrepository.com/artifact/org.tpolecat/doobie-core
-      "org.tpolecat" %%% "doobie-core" % "1.0.0-RC10",
+      "org.tpolecat" %%% "doobie-core" % "1.0.0-RC11",
       // https://mvnrepository.com/artifact/org.tpolecat/doobie-hikari
-      "org.tpolecat" %%% "doobie-hikari" % "1.0.0-RC10" % Provided,
+      "org.tpolecat" %%% "doobie-hikari" % "1.0.0-RC11" % Provided,
       // https://mvnrepository.com/artifact/io.opentelemetry.instrumentation/opentelemetry-jdbc
       "io.opentelemetry.instrumentation" % "opentelemetry-jdbc" % "2.21.0-alpha",
       // https://mvnrepository.com/artifact/io.opentelemetry.instrumentation/opentelemetry-hikaricp-3.0
