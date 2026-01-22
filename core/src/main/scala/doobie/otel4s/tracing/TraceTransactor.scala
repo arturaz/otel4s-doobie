@@ -49,7 +49,28 @@ object TraceTransactor {
       statementSanitizationEnabled: Boolean = true,
       captureQueryParameters: Boolean = false,
       transactionInstrumenterEnabled: Boolean = false,
-      sqlCommenter: SqlCommenter = SqlCommenter.noop()
+      sqlCommenterEnabled: Boolean = false
+  ): Transactor.Aux[M, Connection] =
+    fromConnection(
+      otel,
+      transactor,
+      statementInstrumenterEnabled,
+      statementSanitizationEnabled,
+      captureQueryParameters,
+      transactionInstrumenterEnabled,
+      SqlCommenter.builder().setEnabled(sqlCommenterEnabled).build()
+    )
+
+  /** Wraps an existing Connection Transactor with open telemetry tracing
+    */
+  def fromConnection[M[_]](
+      otel: OpenTelemetry,
+      transactor: Transactor.Aux[M, Connection],
+      statementInstrumenterEnabled: Boolean,
+      statementSanitizationEnabled: Boolean,
+      captureQueryParameters: Boolean,
+      transactionInstrumenterEnabled: Boolean,
+      sqlCommenter: SqlCommenter
   ): Transactor.Aux[M, Connection] =
     transactor.copy(
       kernel0 = OpenTelemetryConnection.create(
