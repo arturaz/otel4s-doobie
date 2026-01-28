@@ -1,5 +1,5 @@
 // https://typelevel.org/sbt-typelevel/faq.html#what-is-a-base-version-anyway
-ThisBuild / tlBaseVersion := "0.9" // your current series x.y
+ThisBuild / tlBaseVersion := "0.10" // your current series x.y
 
 ThisBuild / organization := "io.github.arturaz"
 ThisBuild / organizationName := "arturaz"
@@ -19,8 +19,8 @@ ThisBuild / tlSitePublishBranch := Some("master")
 // Disable the checks, I don't want to deal with them right now.
 ThisBuild / tlCiHeaderCheck := false
 
-val Scala213 = "2.13.17"
-ThisBuild / crossScalaVersions := Seq(Scala213, "3.3.4")
+val Scala213 = "2.13.18"
+ThisBuild / crossScalaVersions := Seq(Scala213, "3.3.7")
 ThisBuild / scalaVersion := Scala213 // the default Scala
 
 ThisBuild / githubWorkflowJavaVersions := Seq(JavaSpec.temurin("11"))
@@ -38,23 +38,23 @@ lazy val core = project
       // https://mvnrepository.com/artifact/org.typelevel/cats-effect
       "org.typelevel" %%% "cats-effect" % "3.6.3",
       // https://mvnrepository.com/artifact/org.typelevel/otel4s-java
-      "org.typelevel" %%% "otel4s-oteljava" % "0.14.0",
+      "org.typelevel" %%% "otel4s-oteljava" % "0.15.0",
       // https://mvnrepository.com/artifact/org.tpolecat/doobie-core
       "org.tpolecat" %%% "doobie-core" % "1.0.0-RC11",
       // https://mvnrepository.com/artifact/org.tpolecat/doobie-hikari
       "org.tpolecat" %%% "doobie-hikari" % "1.0.0-RC11" % Provided,
       // https://mvnrepository.com/artifact/io.opentelemetry.instrumentation/opentelemetry-jdbc
-      "io.opentelemetry.instrumentation" % "opentelemetry-jdbc" % "2.21.0-alpha",
+      "io.opentelemetry.instrumentation" % "opentelemetry-jdbc" % "2.24.0-alpha",
       // https://mvnrepository.com/artifact/io.opentelemetry.instrumentation/opentelemetry-hikaricp-3.0
-      "io.opentelemetry.instrumentation" % "opentelemetry-hikaricp-3.0" % "2.21.0-alpha" % Provided,
+      "io.opentelemetry.instrumentation" % "opentelemetry-hikaricp-3.0" % "2.24.0-alpha" % Provided,
       // https://mvnrepository.com/artifact/org.typelevel/otel4s-oteljava-context-storage
-      "org.typelevel" %% "otel4s-oteljava-context-storage" % "0.14.0" % Test,
+      "org.typelevel" %% "otel4s-oteljava-context-storage" % "0.15.0" % Test,
       // https://mvnrepository.com/artifact/org.scalameta/munit
       "org.scalameta" %%% "munit" % "1.2.1" % Test,
       "org.typelevel" %%% "munit-cats-effect" % "2.1.0" % Test,
       // https://mvnrepository.com/artifact/org.typelevel/otel4s-oteljava-testkit
-      "org.typelevel" %% "otel4s-oteljava-testkit" % "0.14.0" % Test,
-      "org.typelevel" %% "otel4s-oteljava-context-storage-testkit" % "0.14.0" % Test,
+      "org.typelevel" %% "otel4s-oteljava-testkit" % "0.15.0" % Test,
+      "org.typelevel" %% "otel4s-oteljava-context-storage-testkit" % "0.15.0" % Test,
       // https://mvnrepository.com/artifact/com.h2database/h2
       "com.h2database" % "h2" % "2.4.240" % Test
     ),

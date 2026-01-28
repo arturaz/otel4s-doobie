@@ -2,6 +2,7 @@ package doobie.otel4s.tracing
 
 import doobie.util.transactor.Transactor
 import io.opentelemetry.api.OpenTelemetry
+import io.opentelemetry.instrumentation.api.incubator.semconv.db.internal.SqlCommenter
 import io.opentelemetry.instrumentation.jdbc.datasource.JdbcTelemetry
 import io.opentelemetry.instrumentation.jdbc.datasource.internal.Experimental
 import io.opentelemetry.instrumentation.jdbc.internal.JdbcInstrumenterFactory
@@ -50,6 +51,27 @@ object TraceTransactor {
       transactionInstrumenterEnabled: Boolean = false,
       sqlCommenterEnabled: Boolean = false
   ): Transactor.Aux[M, Connection] =
+    fromConnection(
+      otel,
+      transactor,
+      statementInstrumenterEnabled,
+      statementSanitizationEnabled,
+      captureQueryParameters,
+      transactionInstrumenterEnabled,
+      SqlCommenter.builder().setEnabled(sqlCommenterEnabled).build()
+    )
+
+  /** Wraps an existing Connection Transactor with open telemetry tracing
+    */
+  def fromConnection[M[_]](
+      otel: OpenTelemetry,
+      transactor: Transactor.Aux[M, Connection],
+      statementInstrumenterEnabled: Boolean,
+      statementSanitizationEnabled: Boolean,
+      captureQueryParameters: Boolean,
+      transactionInstrumenterEnabled: Boolean,
+      sqlCommenter: SqlCommenter
+  ): Transactor.Aux[M, Connection] =
     transactor.copy(
       kernel0 = OpenTelemetryConnection.create(
         transactor.kernel,
@@ -65,7 +87,7 @@ object TraceTransactor {
           transactionInstrumenterEnabled
         ),
         captureQueryParameters,
-        sqlCommenterEnabled
+        sqlCommenter
       )
     )
 
