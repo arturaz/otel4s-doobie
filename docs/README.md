@@ -20,17 +20,20 @@ override def ivyDeps = Agg(
 ```
 
 and `.mill-jvm-opts`:
+
 ```scala
 -Dcats.effect.trackFiberContext=true
 ```
 
 The code from `main` branch can be obtained with:
+
 ```scala
 resolvers ++= Resolver.sonatypeOssRepos("snapshots")
 libraryDependencies += "io.github.arturaz" %% "otel4s-doobie" % "@SNAPSHOT_VERSION@"
 ```
 
 For [mill](https://mill-build.com):
+
 ```scala
   override def repositoriesTask = T.task {
     super.repositoriesTask() ++ Seq(
@@ -52,6 +55,7 @@ Due to the usage of RC versions, binary compatibility is finicky. Consult this t
 
 | Library Version | Doobie Version | Otel4s Version | Cats Effect Version |
 |-----------------|----------------|----------------|---------------------|
+| 0.11.x          | 1.0.0-RC11     | 0.15.0         | 3.6.3               |
 | 0.10.x          | 1.0.0-RC11     | 0.14.0         | 3.6.3               |
 | 0.9.x           | 1.0.0-RC10     | 0.14.0         | 3.6.3               |
 | 0.8.x           | 1.0.0-RC10     | 0.13.1         | 3.6.3               |
@@ -121,6 +125,7 @@ This is how it looks after instrumentation:
 ### Using Hikari
 
 Make sure you have the following libraries in your classpath
+
 ```scala
 "org.tpolecat" %%% "doobie-hikari" % "<version>",
 "io.opentelemetry.instrumentation" % "opentelemetry-hikaricp-3.0" % "<version>"
@@ -197,6 +202,7 @@ This library was created by [Artūras Šlajus](https://arturaz.net). You can fin
 - [Upgraded otel4s from `0.12.0` to `0.13.0`](https://github.com/arturaz/otel4s-doobie/pull/9).
 
 ### v0.6.0
+
 - [Upgraded OpenTelemetry JDBC from `2.15.0-alpha` to `2.16.0-alpha`](https://github.com/arturaz/otel4s-doobie/pull/7)
 - [Expose telemetry options](https://github.com/arturaz/otel4s-doobie/pull/7)
 
