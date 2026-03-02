@@ -31,7 +31,7 @@ object TraceTransactor {
           .builder(otel)
           .setDataSourceInstrumenterEnabled(true)
           .setStatementInstrumenterEnabled(statementInstrumenterEnabled)
-          .setStatementSanitizationEnabled(statementSanitizationEnabled)
+          .setQuerySanitizationEnabled(statementSanitizationEnabled)
           .setCaptureQueryParameters(captureQueryParameters)
           .setTransactionInstrumenterEnabled(transactionInstrumenterEnabled)
         Experimental.setEnableSqlCommenter(builder, sqlCommenterEnabled)
