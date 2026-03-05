@@ -55,6 +55,7 @@ Due to the usage of RC versions, binary compatibility is finicky. Consult this t
 
 | Library Version | Doobie Version | Otel4s Version | Cats Effect Version |
 |-----------------|----------------|----------------|---------------------|
+| 0.12.x          | 1.0.0-RC12     | 0.15.1         | 3.6.3               |
 | 0.11.x          | 1.0.0-RC11     | 0.15.0         | 3.6.3               |
 | 0.10.x          | 1.0.0-RC11     | 0.14.0         | 3.6.3               |
 | 0.9.x           | 1.0.0-RC10     | 0.14.0         | 3.6.3               |
