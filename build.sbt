@@ -36,7 +36,7 @@ lazy val core = project
       // https://mvnrepository.com/artifact/org.typelevel/cats-core
       "org.typelevel" %%% "cats-core" % "2.13.0",
       // https://mvnrepository.com/artifact/org.typelevel/cats-effect
-      "org.typelevel" %%% "cats-effect" % "3.6.3",
+      "org.typelevel" %%% "cats-effect" % "3.7.0",
       // https://mvnrepository.com/artifact/org.typelevel/otel4s-java
       "org.typelevel" %%% "otel4s-oteljava" % "1.0.0-RC1",
       // https://mvnrepository.com/artifact/org.tpolecat/doobie-core
