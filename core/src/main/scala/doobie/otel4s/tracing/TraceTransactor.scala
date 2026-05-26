@@ -34,7 +34,7 @@ object TraceTransactor {
           .setQuerySanitizationEnabled(statementSanitizationEnabled)
           .setCaptureQueryParameters(captureQueryParameters)
           .setTransactionInstrumenterEnabled(transactionInstrumenterEnabled)
-        Experimental.setEnableSqlCommenter(builder, sqlCommenterEnabled)
+        Experimental.setSqlCommenterEnabled(builder, sqlCommenterEnabled)
         builder.build()
       }
         .wrap(transactor.kernel)

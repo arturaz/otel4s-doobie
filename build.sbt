@@ -1,5 +1,5 @@
 // https://typelevel.org/sbt-typelevel/faq.html#what-is-a-base-version-anyway
-ThisBuild / tlBaseVersion := "0.14" // your current series x.y
+ThisBuild / tlBaseVersion := "0.15" // your current series x.y
 
 ThisBuild / organization := "io.github.arturaz"
 ThisBuild / organizationName := "arturaz"
@@ -44,9 +44,9 @@ lazy val core = project
       // https://mvnrepository.com/artifact/org.tpolecat/doobie-hikari
       "org.tpolecat" %%% "doobie-hikari" % "1.0.0-RC12" % Provided,
       // https://mvnrepository.com/artifact/io.opentelemetry.instrumentation/opentelemetry-jdbc
-      "io.opentelemetry.instrumentation" % "opentelemetry-jdbc" % "2.25.0-alpha",
+      "io.opentelemetry.instrumentation" % "opentelemetry-jdbc" % "2.28.1-alpha",
       // https://mvnrepository.com/artifact/io.opentelemetry.instrumentation/opentelemetry-hikaricp-3.0
-      "io.opentelemetry.instrumentation" % "opentelemetry-hikaricp-3.0" % "2.25.0-alpha" % Provided,
+      "io.opentelemetry.instrumentation" % "opentelemetry-hikaricp-3.0" % "2.28.1-alpha" % Provided,
       // https://mvnrepository.com/artifact/org.typelevel/otel4s-oteljava-context-storage
       "org.typelevel" %% "otel4s-oteljava-context-storage" % "1.0.0" % Test,
       // https://mvnrepository.com/artifact/org.scalameta/munit
