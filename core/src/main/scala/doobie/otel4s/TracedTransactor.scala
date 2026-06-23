@@ -2,10 +2,10 @@ package doobie.otel4s
 
 import cats.data.Kleisli
 import cats.effect.kernel.Async
-import doobie.WeakAsync
-import doobie.free.KleisliInterpreter
-import doobie.util.log.LogHandler
-import doobie.util.transactor.Transactor
+import org.typelevel.doobie.WeakAsync
+import org.typelevel.doobie.free.KleisliInterpreter
+import org.typelevel.doobie.util.log.LogHandler
+import org.typelevel.doobie.util.transactor.Transactor
 import org.typelevel.otel4s.Attribute
 import org.typelevel.otel4s.trace.SpanBuilder
 import org.typelevel.otel4s.trace.SpanKind

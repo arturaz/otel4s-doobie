@@ -1,6 +1,6 @@
 package doobie.otel4s.tracing
 
-import doobie.util.transactor.Transactor
+import org.typelevel.doobie.util.transactor.Transactor
 import io.opentelemetry.api.OpenTelemetry
 import io.opentelemetry.instrumentation.api.incubator.semconv.db.internal.SqlCommenter
 import io.opentelemetry.instrumentation.jdbc.datasource.JdbcTelemetry

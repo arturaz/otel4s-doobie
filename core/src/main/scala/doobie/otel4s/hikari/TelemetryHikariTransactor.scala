@@ -3,11 +3,11 @@ package doobie.otel4s.hikari
 import cats.effect.kernel.Async
 import cats.effect.kernel.Resource
 import com.zaxxer.hikari.HikariConfig
-import doobie.hikari.HikariTransactor
 import doobie.otel4s.tracing.TraceTransactor
-import doobie.util.log.LogHandler
-import doobie.util.transactor.Transactor
-import doobie.util.transactor.Transactor.Aux
+import org.typelevel.doobie.hikari.HikariTransactor
+import org.typelevel.doobie.util.log.LogHandler
+import org.typelevel.doobie.util.transactor.Transactor
+import org.typelevel.doobie.util.transactor.Transactor.Aux
 import io.opentelemetry.api.OpenTelemetry
 
 import javax.sql.DataSource
