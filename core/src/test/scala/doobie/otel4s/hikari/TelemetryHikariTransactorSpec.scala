@@ -3,9 +3,9 @@ package doobie.otel4s.hikari
 import cats.effect.IO
 import com.zaxxer.hikari.HikariConfig
 import doobie.otel4s.testkit.InMemoryJOpenTelemetry
+import munit.CatsEffectSuite
 import org.typelevel.doobie.implicits.toSqlInterpolator
 import org.typelevel.doobie.syntax.connectionio.toConnectionIOOps
-import munit.CatsEffectSuite
 import org.typelevel.otel4s.context.LocalProvider
 import org.typelevel.otel4s.oteljava.OtelJava
 import org.typelevel.otel4s.oteljava.context.Context
