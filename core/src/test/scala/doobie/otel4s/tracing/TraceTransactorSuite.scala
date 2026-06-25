@@ -1,13 +1,13 @@
 package doobie.otel4s.tracing
 
 import cats.effect.IO
-import doobie.Transactor
-import doobie.implicits.toSqlInterpolator
 import doobie.otel4s.testkit.InMemoryJOpenTelemetry
-import doobie.syntax.connectionio.toConnectionIOOps
-import doobie.util.ExecutionContexts
 import munit.CatsEffectSuite
 import org.h2.jdbcx.JdbcDataSource
+import org.typelevel.doobie.Transactor
+import org.typelevel.doobie.implicits.toSqlInterpolator
+import org.typelevel.doobie.syntax.connectionio.toConnectionIOOps
+import org.typelevel.doobie.util.ExecutionContexts
 import org.typelevel.otel4s.context.LocalProvider
 import org.typelevel.otel4s.oteljava.OtelJava
 import org.typelevel.otel4s.oteljava.context.Context

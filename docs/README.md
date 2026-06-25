@@ -55,6 +55,7 @@ Due to the usage of RC versions, binary compatibility is finicky. Consult this t
 
 | Library Version | Doobie Version | Otel4s Version | Cats Effect Version |
 |-----------------|----------------|----------------|---------------------|
+| 0.16.x          | 1.0.0-RC13     | 1.0.0          | 3.7.0               |
 | 0.15.x          | 1.0.0-RC12     | 1.0.0          | 3.7.0               |
 | 0.14.x          | 1.0.0-RC12     | 1.0.0-RC1      | 3.7.0               |
 | 0.13.x          | 1.0.0-RC12     | 0.16.0         | 3.6.3               |
@@ -77,11 +78,11 @@ Due to the usage of RC versions, binary compatibility is finicky. Consult this t
 import cats.effect.IO
 import cats.effect.IOApp
 import cats.effect.MonadCancelThrow
-import doobie.Transactor
-import doobie.implicits.toSqlInterpolator
 import doobie.otel4s.tracing.TraceTransactor
-import doobie.syntax.connectionio.toConnectionIOOps
-import doobie.util.ExecutionContexts
+import org.typelevel.doobie.Transactor
+import org.typelevel.doobie.implicits.toSqlInterpolator
+import org.typelevel.doobie.syntax.connectionio.toConnectionIOOps
+import org.typelevel.doobie.util.ExecutionContexts
 import org.typelevel.otel4s.context.LocalProvider
 import org.typelevel.otel4s.oteljava.OtelJava
 import org.typelevel.otel4s.oteljava.context.Context
@@ -142,10 +143,10 @@ import cats.effect.IO
 import cats.effect.IOApp
 import cats.effect.MonadCancelThrow
 import com.zaxxer.hikari.HikariConfig
-import doobie.Transactor
-import doobie.implicits.toSqlInterpolator
 import doobie.otel4s.hikari.TelemetryHikariTransactor
-import doobie.syntax.connectionio.toConnectionIOOps
+import org.typelevel.doobie.Transactor
+import org.typelevel.doobie.implicits.toSqlInterpolator
+import org.typelevel.doobie.syntax.connectionio.toConnectionIOOps
 import org.typelevel.otel4s.context.LocalProvider
 import org.typelevel.otel4s.oteljava.OtelJava
 import org.typelevel.otel4s.oteljava.context.Context
