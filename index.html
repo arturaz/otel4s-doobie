@@ -107,17 +107,17 @@
         <h3 id="installation" class="section"><a class="anchor-link left" href="#installation"><i class="icofont-laika link">&#xef71;</i></a>Installation</h3>
         <p>This library is currently available for Scala binary versions 2.13 and 3.3+.</p>
         <p>To use the latest version, include the following in your <code>build.sbt</code>:</p>
-        <pre class="keep-together pdf epub"><code class="nohighlight"><span class="identifier">libraryDependencies</span><span> += </span><span class="string-literal">&quot;io.github.arturaz&quot;</span><span> %% </span><span class="string-literal">&quot;otel4s-doobie&quot;</span><span> % </span><span class="string-literal">&quot;0.15.0&quot;</span><span>
+        <pre class="keep-together pdf epub"><code class="nohighlight"><span class="identifier">libraryDependencies</span><span> += </span><span class="string-literal">&quot;io.github.arturaz&quot;</span><span> %% </span><span class="string-literal">&quot;otel4s-doobie&quot;</span><span> % </span><span class="string-literal">&quot;0.15.1&quot;</span><span>
 </span><span class="identifier">javaOptions</span><span> += </span><span class="string-literal">&quot;-Dcats.effect.trackFiberContext=true&quot;</span></code></pre>
         <p>Or <code>build.mill</code> if you are using <a href="https://mill-build.com">mill</a>:</p>
         <pre class="keep-together pdf epub"><code class="nohighlight"><span class="keyword">override</span><span> </span><span class="keyword">def</span><span> </span><span class="declaration-name">ivyDeps</span><span> = </span><span class="type-name">Agg</span><span>(
-  </span><span class="string-literal">ivy&quot;io.github.arturaz::otel4s-doobie:0.15.0&quot;</span><span>
+  </span><span class="string-literal">ivy&quot;io.github.arturaz::otel4s-doobie:0.15.1&quot;</span><span>
 )</span></code></pre>
         <p>and <code>.mill-jvm-opts</code>:</p>
         <pre class="keep-together pdf epub"><code class="nohighlight"><span>-</span><span class="type-name">Dcats</span><span>.</span><span class="identifier">effect</span><span>.</span><span class="identifier">trackFiberContext</span><span>=</span><span class="boolean-literal">true</span></code></pre>
         <p>The code from <code>main</code> branch can be obtained with:</p>
         <pre class="keep-together pdf epub"><code class="nohighlight"><span class="identifier">resolvers</span><span> ++= </span><span class="type-name">Resolver</span><span>.</span><span class="identifier">sonatypeOssRepos</span><span>(</span><span class="string-literal">&quot;snapshots&quot;</span><span>)
-</span><span class="identifier">libraryDependencies</span><span> += </span><span class="string-literal">&quot;io.github.arturaz&quot;</span><span> %% </span><span class="string-literal">&quot;otel4s-doobie&quot;</span><span> % </span><span class="string-literal">&quot;0.15.0-2-e707490-SNAPSHOT&quot;</span></code></pre>
+</span><span class="identifier">libraryDependencies</span><span> += </span><span class="string-literal">&quot;io.github.arturaz&quot;</span><span> %% </span><span class="string-literal">&quot;otel4s-doobie&quot;</span><span> % </span><span class="string-literal">&quot;0.16-a7ef7a1-SNAPSHOT&quot;</span></code></pre>
         <p>For <a href="https://mill-build.com">mill</a>:</p>
         <pre class="keep-together pdf epub"><code class="nohighlight"><span>  </span><span class="keyword">override</span><span> </span><span class="keyword">def</span><span> </span><span class="declaration-name">repositoriesTask</span><span> = </span><span class="type-name">T</span><span>.</span><span class="identifier">task</span><span> {
     </span><span class="keyword">super</span><span>.</span><span class="identifier">repositoriesTask</span><span>() ++ </span><span class="type-name">Seq</span><span>(
@@ -126,7 +126,7 @@
   }
 
 </span><span class="keyword">override</span><span> </span><span class="keyword">def</span><span> </span><span class="declaration-name">ivyDeps</span><span> = </span><span class="type-name">Agg</span><span>(
-  </span><span class="string-literal">ivy&quot;io.github.arturaz::otel4s-doobie:0.15.0-2-e707490-SNAPSHOT&quot;</span><span>
+  </span><span class="string-literal">ivy&quot;io.github.arturaz::otel4s-doobie:0.16-a7ef7a1-SNAPSHOT&quot;</span><span>
 )</span></code></pre>
         <p>You can see all the published artifacts on
         <a href="https://mvnrepository.com/artifact/io.github.arturaz/otel4s-doobie">MVN Repository</a>.</p>
@@ -143,6 +143,12 @@
             </tr>
           </thead>
           <tbody>
+            <tr>
+              <td>0.16.x</td>
+              <td>1.0.0-RC13</td>
+              <td>1.0.0</td>
+              <td>3.7.0</td>
+            </tr>
             <tr>
               <td>0.15.x</td>
               <td>1.0.0-RC12</td>
@@ -240,11 +246,11 @@
         <pre><code class="nohighlight"><span class="keyword">import</span><span> </span><span class="identifier">cats</span><span>.</span><span class="identifier">effect</span><span>.</span><span class="type-name">IO</span><span>
 </span><span class="keyword">import</span><span> </span><span class="identifier">cats</span><span>.</span><span class="identifier">effect</span><span>.</span><span class="type-name">IOApp</span><span>
 </span><span class="keyword">import</span><span> </span><span class="identifier">cats</span><span>.</span><span class="identifier">effect</span><span>.</span><span class="type-name">MonadCancelThrow</span><span>
-</span><span class="keyword">import</span><span> </span><span class="identifier">doobie</span><span>.</span><span class="type-name">Transactor</span><span>
-</span><span class="keyword">import</span><span> </span><span class="identifier">doobie</span><span>.</span><span class="identifier">implicits</span><span>.</span><span class="identifier">toSqlInterpolator</span><span>
 </span><span class="keyword">import</span><span> </span><span class="identifier">doobie</span><span>.</span><span class="identifier">otel4s</span><span>.</span><span class="identifier">tracing</span><span>.</span><span class="type-name">TraceTransactor</span><span>
-</span><span class="keyword">import</span><span> </span><span class="identifier">doobie</span><span>.</span><span class="identifier">syntax</span><span>.</span><span class="identifier">connectionio</span><span>.</span><span class="identifier">toConnectionIOOps</span><span>
-</span><span class="keyword">import</span><span> </span><span class="identifier">doobie</span><span>.</span><span class="identifier">util</span><span>.</span><span class="type-name">ExecutionContexts</span><span>
+</span><span class="keyword">import</span><span> </span><span class="identifier">org</span><span>.</span><span class="identifier">typelevel</span><span>.</span><span class="identifier">doobie</span><span>.</span><span class="type-name">Transactor</span><span>
+</span><span class="keyword">import</span><span> </span><span class="identifier">org</span><span>.</span><span class="identifier">typelevel</span><span>.</span><span class="identifier">doobie</span><span>.</span><span class="identifier">implicits</span><span>.</span><span class="identifier">toSqlInterpolator</span><span>
+</span><span class="keyword">import</span><span> </span><span class="identifier">org</span><span>.</span><span class="identifier">typelevel</span><span>.</span><span class="identifier">doobie</span><span>.</span><span class="identifier">syntax</span><span>.</span><span class="identifier">connectionio</span><span>.</span><span class="identifier">toConnectionIOOps</span><span>
+</span><span class="keyword">import</span><span> </span><span class="identifier">org</span><span>.</span><span class="identifier">typelevel</span><span>.</span><span class="identifier">doobie</span><span>.</span><span class="identifier">util</span><span>.</span><span class="type-name">ExecutionContexts</span><span>
 </span><span class="keyword">import</span><span> </span><span class="identifier">org</span><span>.</span><span class="identifier">typelevel</span><span>.</span><span class="identifier">otel4s</span><span>.</span><span class="identifier">context</span><span>.</span><span class="type-name">LocalProvider</span><span>
 </span><span class="keyword">import</span><span> </span><span class="identifier">org</span><span>.</span><span class="identifier">typelevel</span><span>.</span><span class="identifier">otel4s</span><span>.</span><span class="identifier">oteljava</span><span>.</span><span class="type-name">OtelJava</span><span>
 </span><span class="keyword">import</span><span> </span><span class="identifier">org</span><span>.</span><span class="identifier">typelevel</span><span>.</span><span class="identifier">otel4s</span><span>.</span><span class="identifier">oteljava</span><span>.</span><span class="identifier">context</span><span>.</span><span class="type-name">Context</span><span>
@@ -293,10 +299,10 @@
 </span><span class="keyword">import</span><span> </span><span class="identifier">cats</span><span>.</span><span class="identifier">effect</span><span>.</span><span class="type-name">IOApp</span><span>
 </span><span class="keyword">import</span><span> </span><span class="identifier">cats</span><span>.</span><span class="identifier">effect</span><span>.</span><span class="type-name">MonadCancelThrow</span><span>
 </span><span class="keyword">import</span><span> </span><span class="identifier">com</span><span>.</span><span class="identifier">zaxxer</span><span>.</span><span class="identifier">hikari</span><span>.</span><span class="type-name">HikariConfig</span><span>
-</span><span class="keyword">import</span><span> </span><span class="identifier">doobie</span><span>.</span><span class="type-name">Transactor</span><span>
-</span><span class="keyword">import</span><span> </span><span class="identifier">doobie</span><span>.</span><span class="identifier">implicits</span><span>.</span><span class="identifier">toSqlInterpolator</span><span>
 </span><span class="keyword">import</span><span> </span><span class="identifier">doobie</span><span>.</span><span class="identifier">otel4s</span><span>.</span><span class="identifier">hikari</span><span>.</span><span class="type-name">TelemetryHikariTransactor</span><span>
-</span><span class="keyword">import</span><span> </span><span class="identifier">doobie</span><span>.</span><span class="identifier">syntax</span><span>.</span><span class="identifier">connectionio</span><span>.</span><span class="identifier">toConnectionIOOps</span><span>
+</span><span class="keyword">import</span><span> </span><span class="identifier">org</span><span>.</span><span class="identifier">typelevel</span><span>.</span><span class="identifier">doobie</span><span>.</span><span class="type-name">Transactor</span><span>
+</span><span class="keyword">import</span><span> </span><span class="identifier">org</span><span>.</span><span class="identifier">typelevel</span><span>.</span><span class="identifier">doobie</span><span>.</span><span class="identifier">implicits</span><span>.</span><span class="identifier">toSqlInterpolator</span><span>
+</span><span class="keyword">import</span><span> </span><span class="identifier">org</span><span>.</span><span class="identifier">typelevel</span><span>.</span><span class="identifier">doobie</span><span>.</span><span class="identifier">syntax</span><span>.</span><span class="identifier">connectionio</span><span>.</span><span class="identifier">toConnectionIOOps</span><span>
 </span><span class="keyword">import</span><span> </span><span class="identifier">org</span><span>.</span><span class="identifier">typelevel</span><span>.</span><span class="identifier">otel4s</span><span>.</span><span class="identifier">context</span><span>.</span><span class="type-name">LocalProvider</span><span>
 </span><span class="keyword">import</span><span> </span><span class="identifier">org</span><span>.</span><span class="identifier">typelevel</span><span>.</span><span class="identifier">otel4s</span><span>.</span><span class="identifier">oteljava</span><span>.</span><span class="type-name">OtelJava</span><span>
 </span><span class="keyword">import</span><span> </span><span class="identifier">org</span><span>.</span><span class="identifier">typelevel</span><span>.</span><span class="identifier">otel4s</span><span>.</span><span class="identifier">oteljava</span><span>.</span><span class="identifier">context</span><span>.</span><span class="type-name">Context</span><span>
