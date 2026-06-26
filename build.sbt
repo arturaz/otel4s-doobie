@@ -1,5 +1,5 @@
 // https://typelevel.org/sbt-typelevel/faq.html#what-is-a-base-version-anyway
-ThisBuild / tlBaseVersion := "0.16" // your current series x.y
+ThisBuild / tlBaseVersion := "0.17" // your current series x.y
 
 ThisBuild / organization := "io.github.arturaz"
 ThisBuild / organizationName := "arturaz"
@@ -38,23 +38,23 @@ lazy val core = project
       // https://mvnrepository.com/artifact/org.typelevel/cats-effect
       "org.typelevel" %%% "cats-effect" % "3.7.0",
       // https://mvnrepository.com/artifact/org.typelevel/otel4s-java
-      "org.typelevel" %%% "otel4s-oteljava" % "1.0.0",
+      "org.typelevel" %%% "otel4s-oteljava" % "1.0.1",
       // https://mvnrepository.com/artifact/org.tpolecat/doobie-core
       "org.typelevel" %%% "doobie-core" % "1.0.0-RC13",
       // https://mvnrepository.com/artifact/org.tpolecat/doobie-hikari
       "org.typelevel" %%% "doobie-hikari" % "1.0.0-RC13" % Provided,
       // https://mvnrepository.com/artifact/io.opentelemetry.instrumentation/opentelemetry-jdbc
-      "io.opentelemetry.instrumentation" % "opentelemetry-jdbc" % "2.28.1-alpha",
+      "io.opentelemetry.instrumentation" % "opentelemetry-jdbc" % "2.29.0-alpha",
       // https://mvnrepository.com/artifact/io.opentelemetry.instrumentation/opentelemetry-hikaricp-3.0
-      "io.opentelemetry.instrumentation" % "opentelemetry-hikaricp-3.0" % "2.28.1-alpha" % Provided,
+      "io.opentelemetry.instrumentation" % "opentelemetry-hikaricp-3.0" % "2.29.0-alpha" % Provided,
       // https://mvnrepository.com/artifact/org.typelevel/otel4s-oteljava-context-storage
-      "org.typelevel" %% "otel4s-oteljava-context-storage" % "1.0.0" % Test,
+      "org.typelevel" %% "otel4s-oteljava-context-storage" % "1.0.1" % Test,
       // https://mvnrepository.com/artifact/org.scalameta/munit
       "org.scalameta" %%% "munit" % "1.2.3" % Test,
       "org.typelevel" %%% "munit-cats-effect" % "2.1.0" % Test,
       // https://mvnrepository.com/artifact/org.typelevel/otel4s-oteljava-testkit
-      "org.typelevel" %% "otel4s-oteljava-testkit" % "1.0.0" % Test,
-      "org.typelevel" %% "otel4s-oteljava-context-storage-testkit" % "1.0.0" % Test,
+      "org.typelevel" %% "otel4s-oteljava-testkit" % "1.0.1" % Test,
+      "org.typelevel" %% "otel4s-oteljava-context-storage-testkit" % "1.0.1" % Test,
       // https://mvnrepository.com/artifact/com.h2database/h2
       "com.h2database" % "h2" % "2.4.240" % Test
     ),
