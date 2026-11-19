@@ -40,7 +40,7 @@ lazy val core = project
       // https://mvnrepository.com/artifact/org.typelevel/otel4s-java
       "org.typelevel" %%% "otel4s-oteljava" % "1.0.1",
       // https://mvnrepository.com/artifact/org.tpolecat/doobie-core
-      "org.typelevel" %%% "doobie-core" % "1.0.0-RC13",
+      "org.typelevel" %%% "doobie-core" % "1.0.0-RC14",
       // https://mvnrepository.com/artifact/org.tpolecat/doobie-hikari
       "org.typelevel" %%% "doobie-hikari" % "1.0.0-RC13" % Provided,
       // https://mvnrepository.com/artifact/io.opentelemetry.instrumentation/opentelemetry-jdbc
